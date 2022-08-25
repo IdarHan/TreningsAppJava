@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">TreningsAppJava</string>
+    <string name="workout">Workout</string>
+    <string name="get_fuckin_pumped_boi">Get fuckin pumped, boi!</string>
+    <string name="settings">Settings</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
+    <string name="sets">sets</string>
+    <string name="setprogression">setProgression</string>
+    <string name="kg">kg</string>
+    <string name="_000">000</string>
+    <string name="_0">0</string>
+    <string name="exercise">Exercise:</string>
+    <string name="_5">5</string>
+    <string name="deadlift">Deadlift</string>
+    <string name="dumbbell_press">Dumbbell Press</string>
+    <string name="barbell_rows">Barbell Rows</string>
+    <string name="squat">Squat</string>
+    <string name="overhead_press">Overhead Press</string>
+    <string name="reps">Reps:</string>
+
+    <string-array name="name">
+        <item>squat</item>
+        <item>overhead press</item>
+        <item>deadlift</item>
+        <item>dumbbell press</item>
+        <item>barbell rows</item>
+    </string-array>
+
+    <string-array name="weight">
+        <item>80</item>
+        <item>40</item>
+        <item>110</item>
+        <item>30</item>
+        <item>70</item>
+    </string-array>
+
+    <string-array name="sets">
+        <item>5</item>
+        <item>5</item>
+        <item>3</item>
+        <item>3</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="reps">
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>8</item>
+        <item>5</item>
+    </string-array>
+
+</resources>

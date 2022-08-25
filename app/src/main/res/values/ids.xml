@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="squatSetsTextView" type="id" />
+    <item name="saveBtn2" type="id" />
+    <item name="exerciseNameTextView" type="id" />
+    <item name="exerciseSetsTextView" type="id" />
+    <item name="exerciseRepsTextView" type="id" />
+    <item name="ohpNameTextView" type="id" />
+    <item name="squatNameTextView" type="id" />
+</resources>

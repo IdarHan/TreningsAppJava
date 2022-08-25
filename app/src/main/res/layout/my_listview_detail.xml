@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <TextView
+        android:id="@+id/seekBarValue"
+        android:layout_width="19dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setsTextView"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="0dp"
+        android:layout_toEndOf="@+id/seekBar"
+        android:text="@string/_0"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="134dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="0dp"
+        android:text="@string/name"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/setsTextView"
+        android:layout_width="59dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/kgTextView"
+        android:layout_alignBottom="@+id/kgTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="271dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="@string/sets"
+        android:textSize="16sp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="50dp"
+        android:clickable="false"
+        android:contentDescription="@string/setprogression"
+        android:max="1" />
+
+    <EditText
+        android:id="@+id/weightEditText"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="22dp"
+        android:layout_toEndOf="@+id/nameTextView"
+        android:autofillHints=""
+        android:ems="5"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:text="@string/_000" />
+
+    <TextView
+        android:id="@+id/kgTextView"
+        android:layout_width="41dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/weightEditText"
+        android:text="@string/kg"
+        android:textSize="18sp" />
+
+</RelativeLayout>
