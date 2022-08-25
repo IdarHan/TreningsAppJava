@@ -1,18 +1,21 @@
 package com.myapplication.data;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import java.sql.Date;
 import java.time.Clock;
 
-@Entity(primaryKeys = {"name", "date", "userID"},tableName = "exercise_table")
+@Entity(primaryKeys = {"name",/* "date",*/ "userID"},tableName = "exercise_table")
 public class Exercise {
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
     String name;
-    @PrimaryKey(autoGenerate = true)
-    Clock date;
-    @PrimaryKey(autoGenerate = true)
+    //@NonNull @TypeConverters(DateConverter.class)
+    //private Date date;
+    @NonNull
     String userID;
     @ColumnInfo(name = "reps")
     int reps;

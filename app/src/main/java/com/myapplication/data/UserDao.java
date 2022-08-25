@@ -16,7 +16,7 @@ public interface UserDao {
     void addUser(User user);
 
     @Query("SELECT * FROM user_table ORDER BY id ASC")
-    LiveData<List<User>>  readAllData();
+    List<User> readAllData();
 
     @Delete
     void delete(User user);
