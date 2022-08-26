@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity(tableName = "workout_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"))
@@ -18,5 +20,5 @@ public class Workout {
     public int workoutNumber;
     @ColumnInfo(name = "date")
     @TypeConverters({Converters.class})
-    public Date date;
+    public String date;
 }

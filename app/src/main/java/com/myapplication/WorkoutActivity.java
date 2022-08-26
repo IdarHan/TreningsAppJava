@@ -1,11 +1,13 @@
 package com.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Dao;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,9 @@ import com.myapplication.data.Workout;
 import com.myapplication.data.WorkoutDao;
 
 import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -34,6 +39,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     Converters converters = new Converters();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,7 @@ public class WorkoutActivity extends AppCompatActivity {
         Workout workouta = new Workout();
         workouta.user_id = 1;
         workouta.workoutNumber = 1;
+        workouta.date = java.text.DateFormat.getDateTimeInstance().format(new Date());
         Exercise squat = new Exercise();
         squat.name = "Squat";
         squat.reps = 5;
@@ -126,7 +133,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         System.out.println("Printing workouts...");
         for(Workout w : workouts) {
-            System.out.println("UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber);
+            System.out.println("UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
         }
         System.out.println("Printing workouts done.");
 
