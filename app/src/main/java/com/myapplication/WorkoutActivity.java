@@ -19,12 +19,6 @@ import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
 
-    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-            AppDatabase.class, "database-name").build();
-
-    UserDao userDao = db.userDao();
-    List<User> users = userDao.getAll();
-
     ListView myListView;
     String[] names;
     String[] weights;
@@ -36,17 +30,24 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+
+        UserDao userDao = db.userDao();
+        User idar = new User();
+        idar.email = "idar-95@hotmail.com";
+        idar.firstName = "Idar";
+        idar.lastName = "Hansen";
+        userDao.insertAll(idar);
+        List<User> users = userDao.getAll();
+
+        printUsers();
         Button saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivityForResult(new Intent(WorkoutActivity.this, AddNewUserActivity.class), 100);
-
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startIntent.putExtra("com.myapplication.WorkoutActivity", R.id.weightEditText);
-                EditText weightEditText =  findViewById(R.id.weightEditText);
-                System.out.println("the weightEditText is: " + weightEditText.getText().toString());
-                startActivity(startIntent);
+                startActivityForResult(new Intent(WorkoutActivity.this, MainActivity.class), 100);
+                finish();
             }
         });
         /*
@@ -72,5 +73,16 @@ public class WorkoutActivity extends AppCompatActivity {
 
         ExerciseAdapter exerciseAdapter = new ExerciseAdapter(this, names, weights, sets, reps);
         myListView.setAdapter(exerciseAdapter);
+    }
+
+    void printUsers() {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+        UserDao userDao = db.userDao();
+        List<User> userList = userDao.getAll();
+
+        for(User u : userList) {
+            System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.uid + ", email = " + u.email);
+        }
     }
 }
