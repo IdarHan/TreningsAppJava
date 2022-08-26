@@ -5,10 +5,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-@Database(version = 3, entities = {User.class})
+@Database(version = 4, entities = {User.class, Workout.class, Exercise.class}, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
+    public abstract WorkoutDao workoutDao();
+    public abstract ExerciseDao exerciseDao();
 
     /*
     private static UserDatabase INSTANCE;

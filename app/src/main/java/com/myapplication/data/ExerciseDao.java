@@ -1,10 +1,8 @@
 package com.myapplication.data;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 @Dao
 public interface ExerciseDao {
     @Query("SELECT * FROM exercise_table ORDER BY exercise_name ASC")
-    List<Exercise> getAllExercises();
+    List<Exercise> getAll();
 
     @Query("SELECT * FROM exercise_table WHERE workout_id LIKE :workoutID")
     List<Exercise> findByWorkoutID(int workoutID);
@@ -22,5 +20,4 @@ public interface ExerciseDao {
 
     @Delete
     void delete(Exercise exercise);
-
 }

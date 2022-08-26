@@ -6,17 +6,17 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.sql.Date;
+import java.util.Date;
 
-@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "uid", childColumns = "user_id"), tableName = "workout_table")
+@Entity(tableName = "workout_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"))
 public class Workout {
     @ColumnInfo(name = "user_id")
     public int user_id;
     @PrimaryKey(autoGenerate = true)
-    String id;
+    public int id;
     @ColumnInfo(name = "workout_number")
     public int workoutNumber;
     @ColumnInfo(name = "date")
     @TypeConverters({Converters.class})
-    Date date;
+    public Date date;
 }

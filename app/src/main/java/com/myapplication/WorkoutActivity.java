@@ -1,6 +1,7 @@
 package com.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Dao;
 import androidx.room.Room;
 
 import android.content.Intent;
@@ -12,9 +13,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.myapplication.data.AppDatabase;
+import com.myapplication.data.Converters;
+import com.myapplication.data.Exercise;
+import com.myapplication.data.ExerciseDao;
 import com.myapplication.data.User;
 import com.myapplication.data.UserDao;
+import com.myapplication.data.Workout;
+import com.myapplication.data.WorkoutDao;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -25,18 +32,44 @@ public class WorkoutActivity extends AppCompatActivity {
     String[] sets;
     String[] reps;
 
+    Converters converters = new Converters();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().fallbackToDestructiveMigration().build();
-
+                AppDatabase.class, "database-name").allowMainThreadQueries().
+                fallbackToDestructiveMigration().build();
+        /*
         UserDao userDao = db.userDao();
-        List<User> users = userDao.getAll();
+        User idar = new User();
+        idar.email = "idar-95@hotmail.com";
+        idar.lastName = "Hansen";
+        idar.firstName = "Idar";
+        Workout workouta = new Workout();
+        workouta.user_id = 1;
+        workouta.workoutNumber = 1;
+        Exercise squat = new Exercise();
+        squat.name = "Squat";
+        squat.reps = 5;
+        squat.sets = 5;
+        squat.workout_id = 1;
+        squat.weight = 100;
+
+
+
+
+        db.userDao().insertAll(idar);
+        db.workoutDao().insertAll(workouta);
+        db.exerciseDao().insertAll(squat);
+        */
 
         printUsers();
+        printWorkouts();
+        printExercises();
+
         Button saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +105,45 @@ public class WorkoutActivity extends AppCompatActivity {
 
     void printUsers() {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+                        AppDatabase.class, "database-name").allowMainThreadQueries().
+                fallbackToDestructiveMigration().build();
         UserDao userDao = db.userDao();
         List<User> userList = userDao.getAll();
 
+        System.out.println("Printing users...");
         for(User u : userList) {
             System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.id + ", email = " + u.email);
         }
+        System.out.println("Printing users done.");
+    }
+
+    void printWorkouts() {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").allowMainThreadQueries().
+                fallbackToDestructiveMigration().build();
+        WorkoutDao workoutDao = db.workoutDao();
+        List<Workout> workouts = workoutDao.getAll();
+
+        System.out.println("Printing workouts...");
+        for(Workout w : workouts) {
+            System.out.println("UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber);
+        }
+        System.out.println("Printing workouts done.");
+
+    }
+
+    void printExercises() {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").allowMainThreadQueries().
+                fallbackToDestructiveMigration().build();
+        ExerciseDao exerciseDao = db.exerciseDao();
+        List<Exercise> exercises = exerciseDao.getAll();
+
+        System.out.println("Printing exercises...");
+        for(Exercise e : exercises) {
+            System.out.println("exerciseID = " + e.id + ", workoutID = " + e.workout_id +
+                    ", exName" + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
+        }
+        System.out.println("Printing exercises done.");
     }
 }
