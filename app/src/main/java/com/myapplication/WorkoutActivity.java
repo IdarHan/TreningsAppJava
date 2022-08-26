@@ -77,7 +77,7 @@ public class WorkoutActivity extends AppCompatActivity {
         List<User> userList = userDao.getAll();
 
         for(User u : userList) {
-            System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.uid + ", email = " + u.email);
+            System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.id + ", email = " + u.email);
         }
     }
 }

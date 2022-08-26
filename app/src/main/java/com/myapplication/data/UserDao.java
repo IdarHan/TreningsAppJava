@@ -13,7 +13,7 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     List<User> getAll();
 
-    @Query("SELECT * FROM user_table WHERE uid IN (:userIds)")
+    @Query("SELECT * FROM user_table WHERE id IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
 
     @Query("SELECT * FROM user_table WHERE first_name LIKE :first AND " +

@@ -18,5 +18,4 @@ public interface WorkoutDao {
 
     @Delete
     void delete(Workout workout);
-
 }
