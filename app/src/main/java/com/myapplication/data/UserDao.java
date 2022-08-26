@@ -12,11 +12,18 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addUser(User user);
+    @Query("SELECT * FROM user_table")
+    List<User> getAll();
 
-    @Query("SELECT * FROM user_table ORDER BY id ASC")
-    List<User> readAllData();
+    @Query("SELECT * FROM user_table WHERE uid IN (:userIds)")
+    List<User> loadAllByIds(int[] userIds);
+
+    @Query("SELECT * FROM user_table WHERE first_name LIKE :first AND " +
+            "last_name LIKE :last LIMIT 1")
+    User findByName(String first, String last);
+
+    @Insert
+    void insertAll(User... users);
 
     @Delete
     void delete(User user);

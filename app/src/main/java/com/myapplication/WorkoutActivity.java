@@ -1,6 +1,7 @@
 package com.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,7 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.myapplication.data.AppDatabase;
+import com.myapplication.data.User;
+import com.myapplication.data.UserDao;
+
+import java.util.List;
+
 public class WorkoutActivity extends AppCompatActivity {
+
+    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+            AppDatabase.class, "database-name").build();
+
+    UserDao userDao = db.userDao();
+    List<User> users = userDao.getAll();
 
     ListView myListView;
     String[] names;
@@ -27,6 +40,8 @@ public class WorkoutActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //startActivityForResult(new Intent(WorkoutActivity.this, AddNewUserActivity.class), 100);
+
                 Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startIntent.putExtra("com.myapplication.WorkoutActivity", R.id.weightEditText);
                 EditText weightEditText =  findViewById(R.id.weightEditText);
@@ -34,6 +49,19 @@ public class WorkoutActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
+        /*
+        private void loadUserList() {
+            ExerciseDatabase db = ExerciseDatabase.getDbInstance(this.getApplicationContext());
+            List<User> userList = db.userDao().getAllUsers();
+        }
+
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            if(requestCode == 100) {
+                loadUserList();
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }*/
 
         Resources res = getResources();
         myListView = findViewById(R.id.myListView);

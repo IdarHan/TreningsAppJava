@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
 public class User {
-    @PrimaryKey(autoGenerate = true)
-    int id;
+    @PrimaryKey
+    public int uid;
     @ColumnInfo(name = "first_name")
-    String firstName;
+    public String firstName;
     @ColumnInfo(name = "last_name")
-    String lastName;
+    public String lastName;
     @ColumnInfo(name = "e-mail")
-    String email;
+    public String email;
 }

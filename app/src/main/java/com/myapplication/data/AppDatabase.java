@@ -6,10 +6,11 @@ import androidx.room.RoomDatabase;
 import android.content.Context;
 
 @Database(version = 1, entities = {User.class})
-abstract class UserDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
 
+    /*
     private static UserDatabase INSTANCE;
 
     public UserDatabase getDBInstance(Context context) {
@@ -20,6 +21,6 @@ abstract class UserDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
-    }
+    }*/
 
 }
