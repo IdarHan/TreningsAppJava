@@ -34,11 +34,6 @@ public class WorkoutActivity extends AppCompatActivity {
                 AppDatabase.class, "database-name").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         UserDao userDao = db.userDao();
-        User idar = new User();
-        idar.email = "idar-95@hotmail.com";
-        idar.firstName = "Idar";
-        idar.lastName = "Hansen";
-        userDao.insertAll(idar);
         List<User> users = userDao.getAll();
 
         printUsers();
