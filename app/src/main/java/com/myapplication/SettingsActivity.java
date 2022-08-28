@@ -14,10 +14,15 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
 
         HashMap<String, List<Integer>> map = new HashMap<>();
         Button saveBtn2 = findViewById(R.id.saveBtn2);

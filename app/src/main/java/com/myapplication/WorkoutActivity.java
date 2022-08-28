@@ -31,11 +31,12 @@ import java.util.List;
 
 public class WorkoutActivity extends AppCompatActivity {
 
-    ListView myListView;
-    String[] names;
-    String[] weights;
-    String[] sets;
-    String[] reps;
+    private ListView myListView;
+    private String[] names;
+    private String[] weights;
+    private String[] sets;
+    private String[] reps;
+    private String username;
 
     Converters converters = new Converters();
 
@@ -44,6 +45,9 @@ public class WorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "database-name").allowMainThreadQueries().
@@ -82,6 +86,7 @@ public class WorkoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(WorkoutActivity.this, MainActivity.class), 100);
+                System.out.println(username + " finished workout!");
                 finish();
             }
         });
@@ -133,7 +138,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         System.out.println("Printing workouts...");
         for(Workout w : workouts) {
-            System.out.println("UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
+            System.out.println("WorkoutID = " + w.id + ", UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
         }
         System.out.println("Printing workouts done.");
 
