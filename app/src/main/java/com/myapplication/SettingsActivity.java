@@ -8,13 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.myapplication.data.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private String username;
+    private static User currentUser = MainActivity.getUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
 
         HashMap<String, List<Integer>> map = new HashMap<>();
         Button saveBtn2 = findViewById(R.id.saveBtn2);

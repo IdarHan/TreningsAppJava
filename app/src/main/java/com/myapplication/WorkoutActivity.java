@@ -85,7 +85,7 @@ public class WorkoutActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(WorkoutActivity.this, MainActivity.class), 100);
+                //startActivityForResult(new Intent(WorkoutActivity.this, MainActivity.class), 100);
                 System.out.println(username + " finished workout!");
                 finish();
             }
@@ -133,13 +133,13 @@ public class WorkoutActivity extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "database-name").allowMainThreadQueries().
                 fallbackToDestructiveMigration().build();
-        WorkoutDao workoutDao = db.workoutDao();
+        /*WorkoutDao workoutDao = db.workoutDao();
         List<Workout> workouts = workoutDao.getAll();
 
         System.out.println("Printing workouts...");
         for(Workout w : workouts) {
             System.out.println("WorkoutID = " + w.id + ", UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
-        }
+        }*/
         System.out.println("Printing workouts done.");
 
     }
@@ -148,14 +148,14 @@ public class WorkoutActivity extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "database-name").allowMainThreadQueries().
                 fallbackToDestructiveMigration().build();
-        ExerciseDao exerciseDao = db.exerciseDao();
-        List<Exercise> exercises = exerciseDao.getAll();
+        //ExerciseDao exerciseDao = db.exerciseDao();
+        //List<Exercise> exercises = exerciseDao.getAll();
 
         System.out.println("Printing exercises...");
-        for(Exercise e : exercises) {
+        /*for(Exercise e : exercises) {
             System.out.println("exerciseID = " + e.id + ", workoutID = " + e.workout_id +
                     ", exName" + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
-        }
+        }*/
         System.out.println("Printing exercises done.");
     }
 }

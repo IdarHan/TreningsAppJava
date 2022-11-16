@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">TreningsAppJava</string>
     <string name="workout">Workout</string>
-    <string name="get_fuckin_pumped_boi">Get fuckin pumped,</string>
-    <string name="username">pumper!</string>
+    <string name="get_fuckin_pumped_boi">Get fuckin pumped</string>
+    <string name="username"></string>
     <string name="login">Log in!</string>
     <string name="settings">Settings</string>
     <string name="name">Name</string>
@@ -20,6 +20,7 @@
     <string name="squat">Squat</string>
     <string name="overhead_press">Overhead Press</string>
     <string name="reps">Reps:</string>
+    <string name="register">New pumper?</string>
 
     <string-array name="name">
         <item>squat</item>
