@@ -19,8 +19,4 @@ public class Exercise {
     public int sets;
     @ColumnInfo(name = "weight")
     public int weight;
-
-    void setDate() {
-
-    }
 }

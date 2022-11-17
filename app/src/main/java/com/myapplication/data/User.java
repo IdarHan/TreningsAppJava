@@ -11,12 +11,6 @@ import java.util.UUID;
 
 @Entity(tableName = "user_table")
 public class User{
-   /* private String idGenerator() {
-        final String uuid = UUID.randomUUID().toString().replace("-", "");
-        System.out.println("uuid = " + uuid);
-        return uuid;
-    }*/
-
     private boolean logged = false;
 
     @PrimaryKey(autoGenerate = true)
@@ -32,10 +26,6 @@ public class User{
 
     // TODO CHECK IF ALREADY REGISTERED
     public User() {
-       /* this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;*/
     }
 
     public static boolean checkUsername(String username, Context context) {
@@ -45,10 +35,6 @@ public class User{
         if(user == null) return true;
         else
             return false;
-    }
-
-    public String getUsername() {
-        return this.userName;
     }
 
     public void setLogged(boolean bool) {

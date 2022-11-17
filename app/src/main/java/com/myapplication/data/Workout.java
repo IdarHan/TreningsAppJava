@@ -19,6 +19,5 @@ public class Workout {
     @ColumnInfo(name = "workout_number")
     public int workoutNumber;
     @ColumnInfo(name = "date")
-    @TypeConverters({Converters.class})
-    public String date;
+    public long time;
 }

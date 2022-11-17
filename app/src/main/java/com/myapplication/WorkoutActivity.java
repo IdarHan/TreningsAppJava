@@ -49,9 +49,6 @@ public class WorkoutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().
-                fallbackToDestructiveMigration().build();
         /*
         UserDao userDao = db.userDao();
         User idar = new User();
@@ -116,17 +113,14 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     void printUsers() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "database-name").allowMainThreadQueries().
-                fallbackToDestructiveMigration().build();
-        UserDao userDao = db.userDao();
+        /*UserDao userDao = db.userDao();
         List<User> userList = userDao.getAll();
 
         System.out.println("Printing users...");
         for(User u : userList) {
             System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.id + ", email = " + u.email);
         }
-        System.out.println("Printing users done.");
+        System.out.println("Printing users done.");*/
     }
 
     void printWorkouts() {
@@ -136,20 +130,19 @@ public class WorkoutActivity extends AppCompatActivity {
         System.out.println("Printing workouts...");
         for(Workout w : workouts) {
             System.out.println("WorkoutID = " + w.id + ", UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
-        }*/
-        System.out.println("Printing workouts done.");
-
+        }
+        System.out.println("Printing workouts done."); */
     }
 
     void printExercises() {
-        //ExerciseDao exerciseDao = db.exerciseDao();
-        //List<Exercise> exercises = exerciseDao.getAll();
+        /*ExerciseDao exerciseDao = db.exerciseDao();
+        List<Exercise> exercises = exerciseDao.getAll();
 
         System.out.println("Printing exercises...");
-        /*for(Exercise e : exercises) {
+        for(Exercise e : exercises) {
             System.out.println("exerciseID = " + e.id + ", workoutID = " + e.workout_id +
                     ", exName" + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
-        }*/
-        System.out.println("Printing exercises done.");
+        }
+        System.out.println("Printing exercises done.");*/
     }
 }
