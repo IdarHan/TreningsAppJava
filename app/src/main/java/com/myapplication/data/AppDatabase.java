@@ -5,12 +5,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-@Database(version = 5, entities = {User.class}, exportSchema = false)
+@Database(version = 6, entities = {User.class, Workout.class, Exercise.class}, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
-/*    public abstract WorkoutDao workoutDao();
-    public abstract ExerciseDao exerciseDao();*/
+    public abstract WorkoutDao workoutDao();
+    public abstract ExerciseDao exerciseDao();
 
 
     private static AppDatabase INSTANCE;
@@ -23,6 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             .databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "DB_name")
                             .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
 

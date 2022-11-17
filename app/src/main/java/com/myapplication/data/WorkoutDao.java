@@ -20,4 +20,7 @@ public interface WorkoutDao {
 
     @Delete
     void delete(Workout workout);
+
+    @Query("DELETE FROM workout_table")
+    void nukeTable();
 }

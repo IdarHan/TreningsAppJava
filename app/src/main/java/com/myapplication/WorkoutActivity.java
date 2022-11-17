@@ -130,9 +130,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     void printWorkouts() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "database-name").allowMainThreadQueries().
-                fallbackToDestructiveMigration().build();
         /*WorkoutDao workoutDao = db.workoutDao();
         List<Workout> workouts = workoutDao.getAll();
 
@@ -145,9 +142,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     void printExercises() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "database-name").allowMainThreadQueries().
-                fallbackToDestructiveMigration().build();
         //ExerciseDao exerciseDao = db.exerciseDao();
         //List<Exercise> exercises = exerciseDao.getAll();
 

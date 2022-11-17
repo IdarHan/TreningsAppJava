@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Button workoutBtn = (Button)findViewById(R.id.workoutBtn);
         Button loginButton = (Button) findViewById(R.id.loginButton);
         Button registerBtn = (Button) findViewById(R.id.registerBtn);
+        Button logoutBtn = (Button)findViewById(R.id.logoutButton);
+
         TextView titleTextView = findViewById(R.id.titleTextView);
         TextView usernameTextView = findViewById(R.id.userNameTextView);
         TextView loginTextView = findViewById(R.id.loginTextView);
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             settingsBtn.setVisibility(View.VISIBLE);
 
             // Invisible
+            logoutBtn.setVisibility(View.VISIBLE);
+
             registerTextView.setVisibility(View.GONE);
             registerBtn.setVisibility(View.GONE);
             loginButton.setVisibility(View.GONE);
@@ -57,9 +61,15 @@ public class MainActivity extends AppCompatActivity {
             loginTextView.setVisibility(View.GONE);
         } else {
             // Visible
-
+            registerTextView.setVisibility(View.VISIBLE);
+            registerBtn.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+            loginTextView.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+            loginTextView.setVisibility(View.VISIBLE);
 
             // Invisible
+            logoutBtn.setVisibility(View.GONE);
             workoutBtn.setVisibility(View.GONE);
             settingsBtn.setVisibility(View.GONE);
         }
@@ -86,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
                 if(!registering) registering = true;
                 else {
                     String wantedUsername = usernameEditText.getText().toString();
-                    if(User.checkUsername(wantedUsername, getApplicationContext())) {
+                    if(wantedUsername.equalsIgnoreCase("tsarbomba")) {
+                        titleTextView.setText("Username is reserved!");
+                        usernameTextView.setText("O.O");
+                    }
+                    else if(User.checkUsername(wantedUsername, getApplicationContext())) {
                         User user = new User();
                         user.userName = usernameEditText.getText().toString();
                         user.firstName = firstNameEditText.getText().toString();
@@ -127,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 String loginUsername = usernameEditText.getText().toString();
                 if(loginUsername.equals("tsarbomba")) {
                     AppDatabase.getInstance(getApplicationContext()).userDao().nukeTable();
+                    AppDatabase.getInstance(getApplicationContext()).exerciseDao().nukeTable();
+                    AppDatabase.getInstance(getApplicationContext()).workoutDao().nukeTable();
                     titleTextView.setText("\uD83D\uDCA5 NUKE DEPLOYED \uD83D\uDCA5");
                 }
                 else if(!User.checkUsername(loginUsername, getApplicationContext())) {
@@ -136,11 +152,16 @@ public class MainActivity extends AppCompatActivity {
                     usernameTextView.setText(user.userName + "!");
                     titleTextView.setText("Get fuckin pumped,");
 
+
+                    // Visible
+                    workoutBtn.setVisibility(View.VISIBLE);
+                    settingsBtn.setVisibility(View.VISIBLE);
+                    logoutBtn.setVisibility(View.VISIBLE);
+
+                    // Invisible
                     loginButton.setVisibility(View.GONE);
                     usernameEditText.setVisibility(View.GONE);
                     loginTextView.setVisibility(View.GONE);
-                    workoutBtn.setVisibility(View.VISIBLE);
-                    settingsBtn.setVisibility(View.VISIBLE);
                     registerTextView.setVisibility(View.GONE);
                     registerBtn.setVisibility(View.GONE);
                     firstNameEditText.setVisibility(View.GONE);
@@ -151,6 +172,33 @@ public class MainActivity extends AppCompatActivity {
                     titleTextView.setText("User doesn't exist.");
                 }
 
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user = null;
+                logged = false;
+                usernameEditText.setText("");
+
+
+                usernameTextView.setText("pumper!");
+                titleTextView.setText("You are logged out,");
+
+                // Visible
+                usernameEditText.setVisibility(View.VISIBLE);
+                registerTextView.setVisibility(View.VISIBLE);
+                registerBtn.setVisibility(View.VISIBLE);
+                loginButton.setVisibility(View.VISIBLE);
+                loginTextView.setVisibility(View.VISIBLE);
+                loginButton.setVisibility(View.VISIBLE);
+                loginTextView.setVisibility(View.VISIBLE);
+
+                // Invisible
+                logoutBtn.setVisibility(View.GONE);
+                workoutBtn.setVisibility(View.GONE);
+                settingsBtn.setVisibility(View.GONE);
             }
         });
     }

@@ -23,15 +23,11 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Intent intent = getIntent();
-
         HashMap<String, List<Integer>> map = new HashMap<>();
         Button saveBtn2 = findViewById(R.id.saveBtn2);
         saveBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startIntent.putExtra("com.myapplication.WorkoutActivity", R.id.weightEditText);
                 ArrayList<Integer> squatList = new ArrayList<>();
                 ArrayList<Integer> ohpList = new ArrayList<>();
                 ArrayList<Integer> dlList = new ArrayList<>();
@@ -70,9 +66,9 @@ public class SettingsActivity extends AppCompatActivity {
                 brList.add(Integer.parseInt(brSets.getText().toString()));
                 brList.add(Integer.parseInt(brReps.getText().toString()));
                 map.put("br", brList);
-
                 System.out.println(map);
-                startActivity(startIntent);
+
+                finish();
             }
         });
 
