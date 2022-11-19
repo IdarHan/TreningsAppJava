@@ -14,14 +14,13 @@
         android:autofillHints=""
         android:ems="5"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:inputType="number"
         android:minHeight="48dp"
-        android:hint="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex1NameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/ex1NameEditText"
         app:layout_constraintEnd_toEndOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintStart_toStartOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintTop_toTopOf="@+id/ex1NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/exerciseWeightsTextView2" />
 
     <EditText
         android:id="@+id/ex2WeightEditText"
@@ -31,16 +30,14 @@
         android:autofillHints=""
         android:ems="5"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:inputType="number"
         android:minHeight="48dp"
-        android:hint="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex2NameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/ex2NameEditText"
         app:layout_constraintEnd_toEndOf="@+id/ex1WeightEditText"
         app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toStartOf="@+id/ex1WeightEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex2NameTextView"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintStart_toStartOf="@+id/ex1WeightEditText" />
 
     <EditText
         android:id="@+id/ex3WeightEditText"
@@ -50,15 +47,13 @@
         android:autofillHints=""
         android:ems="5"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:inputType="number"
         android:minHeight="48dp"
-        android:hint="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex3NameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/ex3NameEditText"
         app:layout_constraintEnd_toEndOf="@+id/ex2WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex2WeightEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex3NameTextView"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintStart_toStartOf="@+id/ex2WeightEditText" />
 
     <EditText
         android:id="@+id/ex4WeightEditText"
@@ -68,14 +63,13 @@
         android:autofillHints=""
         android:ems="5"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:inputType="number"
         android:minHeight="48dp"
-        android:hint="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex4NameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/ex4NameEditText"
         app:layout_constraintEnd_toEndOf="@+id/ex3WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex3WeightEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex4NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex3WeightEditText" />
 
     <EditText
         android:id="@+id/ex5WeightEditText"
@@ -85,14 +79,13 @@
         android:autofillHints=""
         android:ems="5"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:inputType="number"
         android:minHeight="48dp"
-        android:hint="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex5NameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/ex5NameEditText"
         app:layout_constraintEnd_toEndOf="@+id/ex4WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex4WeightEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex5NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex4WeightEditText" />
 
     <EditText
         android:id="@+id/ex1SetsEditText"
@@ -288,11 +281,11 @@
         android:id="@+id/exerciseNameTextView"
         android:layout_width="98dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
+        android:gravity="center_horizontal"
         android:text="@string/exercise"
         android:textSize="21sp"
-        android:gravity="center_horizontal"
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -339,16 +332,16 @@
         app:layout_constraintTop_toTopOf="@+id/exerciseSetsTextView" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex2NameTextView"
+        android:id="@+id/ex2NameEditText"
         android:layout_width="102dp"
         android:layout_height="65dp"
         android:layout_marginTop="30dp"
         android:hint="Exercise 2"
-        app:layout_constraintStart_toStartOf="@+id/ex1NameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/ex1NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex1NameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/ex1NameEditText" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex1NameTextView"
+        android:id="@+id/ex1NameEditText"
         android:layout_width="102dp"
         android:layout_height="65dp"
         android:layout_marginTop="30dp"
@@ -357,34 +350,31 @@
         app:layout_constraintTop_toBottomOf="@+id/exerciseNameTextView" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex4NameTextView"
+        android:id="@+id/ex4NameEditText"
         android:layout_width="102dp"
         android:layout_height="65dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         android:hint="Exercise 4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ex3NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex3NameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/ex3NameEditText" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex3NameTextView"
+        android:id="@+id/ex3NameEditText"
         android:layout_width="102dp"
         android:layout_height="65dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         android:hint="Exercise 3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ex2NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex2NameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/ex2NameEditText" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex5NameTextView"
+        android:id="@+id/ex5NameEditText"
         android:layout_width="102dp"
         android:layout_height="65dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         android:hint="Exercise 5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ex4NameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/ex4NameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/ex4NameEditText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

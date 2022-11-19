@@ -1,7 +1,6 @@
 package com.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +11,11 @@ import android.widget.TextView;
 
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
-import com.myapplication.data.UserDao;
 
 public class MainActivity extends AppCompatActivity {
     private boolean logged = false;
     private boolean registering = false;
     private static User user;
-    private Intent intent = getIntent();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         titleTextView.setText("Username is reserved!");
                         usernameTextView.setText("O.O");
                     }
-                    else if(User.checkUsername(wantedUsername, getApplicationContext())) {
+                    else if(User.usernameAvailable(wantedUsername, getApplicationContext())) {
                         User user = new User();
                         user.userName = usernameEditText.getText().toString();
                         user.firstName = firstNameEditText.getText().toString();
@@ -120,18 +116,18 @@ public class MainActivity extends AppCompatActivity {
         workoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), WorkoutActivity.class);
-                startIntent.putExtra("username", user.userName);
-                startActivity(startIntent);
+                Intent intent = new Intent(getApplicationContext(), WorkoutActivity.class);
+                intent.putExtra("username", user.userName);
+                startActivity(intent);
             }
         });
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startIntent.putExtra("username", user.userName);
-                startActivity(startIntent);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent.putExtra("username", user.userName);
+                startActivity(intent);
             }
         });
 
@@ -140,18 +136,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String loginUsername = usernameEditText.getText().toString();
                 if(loginUsername.equals("tsarbomba")) {
-                    AppDatabase.getInstance(getApplicationContext()).userDao().nukeTable();
                     AppDatabase.getInstance(getApplicationContext()).exerciseDao().nukeTable();
                     AppDatabase.getInstance(getApplicationContext()).workoutDao().nukeTable();
+                    AppDatabase.getInstance(getApplicationContext()).userDao().nukeTable();
                     titleTextView.setText("\uD83D\uDCA5 NUKE DEPLOYED \uD83D\uDCA5");
                 }
-                else if(!User.checkUsername(loginUsername, getApplicationContext())) {
-                    System.out.println("nuke failed; " + loginUsername + " is not the same as 'nuke'");
+                else if(!User.usernameAvailable(loginUsername, getApplicationContext())) {
                     user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(loginUsername);
-                    System.out.println("User logged in: " + user.userName);
+                    System.out.println("User logged in: " + user);
+                    logged = true;
                     usernameTextView.setText(user.userName + "!");
                     titleTextView.setText("Get fuckin pumped,");
 
+                    user.setWorkout_id(-1);
+                    AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
 
                     // Visible
                     workoutBtn.setVisibility(View.VISIBLE);
@@ -178,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("setWorkout called from main.logout to " + false);
                 user = null;
                 logged = false;
                 usernameEditText.setText("");

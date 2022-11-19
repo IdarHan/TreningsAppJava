@@ -12,8 +12,8 @@ public interface WorkoutDao {
     @Query("SELECT * FROM workout_table")
     List<Workout> getAll();
 
-    @Query("SELECT * FROM workout_table WHERE user_id LIKE :userID")
-    List<Workout> findByUser(int userID);
+    @Query("SELECT * FROM workout_table WHERE user_name LIKE :username")
+    List<Workout> findByUser(String username);
 
     @Insert
     void insertAll(Workout... workouts);
@@ -23,4 +23,13 @@ public interface WorkoutDao {
 
     @Query("DELETE FROM workout_table")
     void nukeTable();
+
+    @Query("SELECT MAX(workout_number) FROM workout_table WHERE user_name LIKE :username")
+    int getPrevUserWorkoutNum(String username);
+
+    @Query("SELECT *, Max(id) as id FROM (SELECT * FROM workout_table WHERE user_name LIKE :username)")
+    Workout getPrevUserWorkout(String username);
+
+    @Query("SELECT Max(id) as id FROM workout_table")
+    int getPrevWorkoutId();
 }

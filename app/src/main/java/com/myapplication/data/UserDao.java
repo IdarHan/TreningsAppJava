@@ -14,10 +14,10 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     List<User> getAll();
 
-    @Query("SELECT * FROM user_table WHERE id IN (:usernames)")
+    @Query("SELECT * FROM user_table WHERE userName IN (:usernames)")
     List<User> loadAllByUsername(String[] usernames);
 
-    @Query("SELECT * FROM user_table WHERE user_name LIKE :username LIMIT 1")
+    @Query("SELECT * FROM user_table WHERE userName LIKE :username LIMIT 1")
     User findByUsername(String username);
 
     @Insert

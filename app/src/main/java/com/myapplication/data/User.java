@@ -2,20 +2,18 @@ package com.myapplication.data;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import com.myapplication.MainActivity;
-import java.util.UUID;
 
 
 @Entity(tableName = "user_table")
 public class User{
-    private boolean logged = false;
 
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-    @ColumnInfo(name = "user_name")
+    /*@PrimaryKey(autoGenerate = true)
+    public int id;*/
+    @PrimaryKey()@NonNull
     public String userName;
     @ColumnInfo(name = "first_name")
     public String firstName;
@@ -23,12 +21,14 @@ public class User{
     public String lastName;
     @ColumnInfo(name = "e-mail")
     public String email;
+    @ColumnInfo(name = "workout_id")
+    public int wid;
 
     // TODO CHECK IF ALREADY REGISTERED
     public User() {
     }
 
-    public static boolean checkUsername(String username, Context context) {
+    public static boolean usernameAvailable(String username, Context context) {
         User user = AppDatabase.getInstance(context)
                 .userDao()
                 .findByUsername(username);
@@ -37,11 +37,13 @@ public class User{
             return false;
     }
 
-    public void setLogged(boolean bool) {
-        logged = bool;
+    public void setWorkout_id(int workout_id) {
+        this.wid = workout_id;
+        System.out.println("setWorkout_id to " + workout_id);
     }
 
-    public boolean getLogged() {
-        return logged;
+    public int getWorkout_id() {
+        return wid;
     }
+
 }

@@ -3,9 +3,10 @@ package com.myapplication.data;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Workout.class, parentColumns = "id", childColumns = "workout_id"),tableName = "exercise_table")
+@Entity(indices = {@Index("id"), @Index("workout_id")},foreignKeys = @ForeignKey(entity = Workout.class, parentColumns = "id", childColumns = "workout_id"),tableName = "exercise_table")
 public class Exercise {
     @PrimaryKey(autoGenerate = true)
     public int id;

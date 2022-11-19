@@ -2,30 +2,22 @@ package com.myapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Dao;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.myapplication.data.AppDatabase;
-import com.myapplication.data.Converters;
 import com.myapplication.data.Exercise;
-import com.myapplication.data.ExerciseDao;
 import com.myapplication.data.User;
-import com.myapplication.data.UserDao;
 import com.myapplication.data.Workout;
-import com.myapplication.data.WorkoutDao;
 
-import java.sql.SQLOutput;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -36,80 +28,68 @@ public class WorkoutActivity extends AppCompatActivity {
     private String[] weights;
     private String[] sets;
     private String[] reps;
-    private String username;
+    private User user;
+    private Workout workout;
 
-    Converters converters = new Converters();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        List<Exercise> exercises = null;
+        TextView noExTextView = findViewById(R.id.noExercisesTextView);
+        noExTextView.setVisibility(View.GONE);
+
+
 
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
+        user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(intent.getStringExtra("username"));
+        if(user.getWorkout_id() == -1){
+            System.out.println("--------------- Making new workout ---------------");
+            workout = new Workout();
+            workout.workoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
+            workout.username = user.userName;
+            workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
+            user.setWorkout_id(AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName).id + 1);
+            System.out.println("setWorkout_id called from workout.onCreate to " + user.getWorkout_id());
+            AppDatabase.getInstance(getApplicationContext()).workoutDao().insertAll(workout);
+        }else {
+            System.out.println("--------------- Using old workout ---------------");
+            workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName);
+        }
 
-        /*
-        UserDao userDao = db.userDao();
-        User idar = new User();
-        idar.email = "idar-95@hotmail.com";
-        idar.lastName = "Hansen";
-        idar.firstName = "Idar";
-        Workout workouta = new Workout();
-        workouta.user_id = 1;
-        workouta.workoutNumber = 1;
-        workouta.date = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        Exercise squat = new Exercise();
-        squat.name = "Squat";
-        squat.reps = 5;
-        squat.sets = 5;
-        squat.workout_id = 1;
-        squat.weight = 100;
-
-
-
-
-        db.userDao().insertAll(idar);
-        db.workoutDao().insertAll(workouta);
-        db.exerciseDao().insertAll(squat);
-        */
-
-        printUsers();
-        printWorkouts();
-        printExercises();
 
         Button saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivityForResult(new Intent(WorkoutActivity.this, MainActivity.class), 100);
-                System.out.println(username + " finished workout!");
+                System.out.println(user.userName + " finished workout!");
                 finish();
             }
         });
-        /*
-        private void loadUserList() {
-            ExerciseDatabase db = ExerciseDatabase.getDbInstance(this.getApplicationContext());
-            List<User> userList = db.userDao().getAllUsers();
-        }
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            if(requestCode == 100) {
-                loadUserList();
-            }
-            super.onActivityResult(requestCode, resultCode, data);
-        }*/
+        exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(workout.id);
+        if(exercises.isEmpty()) noExTextView.setVisibility(View.VISIBLE);
+        printExercises(exercises);
 
         Resources res = getResources();
         myListView = findViewById(R.id.myListView);
-        names = res.getStringArray(R.array.name);
-        weights = res.getStringArray(R.array.weight);
-        sets = res.getStringArray(R.array.sets);
-        reps = res.getStringArray(R.array.reps);
+        names = new String[exercises.size()];
+        weights = new String[exercises.size()];
+        sets = new String[exercises.size()];
+        reps = new String[exercises.size()];
 
-        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(this, names, weights, sets, reps);
-        myListView.setAdapter(exerciseAdapter);
+        int index = 0;
+        for(Exercise e : exercises) {
+            names[index] = e.name;
+            weights[index] = Integer.toString(e.weight);
+            sets[index] = Integer.toString(e.sets);
+            reps[index] = Integer.toString(e.reps);
+            index++;
+        }
+
+        WorkoutAdapter workoutAdapter = new WorkoutAdapter(this, names, weights, sets, reps);
+        myListView.setAdapter(workoutAdapter);
     }
 
     void printUsers() {
@@ -124,25 +104,23 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     void printWorkouts() {
-        /*WorkoutDao workoutDao = db.workoutDao();
-        List<Workout> workouts = workoutDao.getAll();
+        List<Workout> workouts = AppDatabase.getInstance(getApplicationContext()).workoutDao().getAll();
 
         System.out.println("Printing workouts...");
         for(Workout w : workouts) {
-            System.out.println("WorkoutID = " + w.id + ", UserID = " + w.user_id + ", workoutNr = " + w.workoutNumber + ", date is: " + w.date);
+            System.out.println("WorkoutID = " + w.id + ", Username = " + w.username + ", workoutNr = " + w.workoutNumber + ", date is: " + w.time);
         }
-        System.out.println("Printing workouts done."); */
+        System.out.println("Printing workouts done.");
     }
 
-    void printExercises() {
-        /*ExerciseDao exerciseDao = db.exerciseDao();
-        List<Exercise> exercises = exerciseDao.getAll();
+    void printExercises(List<Exercise> list) {
+        List<Exercise> exercises = list;
 
         System.out.println("Printing exercises...");
         for(Exercise e : exercises) {
             System.out.println("exerciseID = " + e.id + ", workoutID = " + e.workout_id +
-                    ", exName" + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
+                    ", exName " + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
         }
-        System.out.println("Printing exercises done.");*/
+        System.out.println("Printing exercises done.");
     }
 }
