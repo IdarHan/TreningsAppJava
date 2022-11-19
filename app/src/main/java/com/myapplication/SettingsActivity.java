@@ -8,8 +8,10 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 
 import com.myapplication.data.AppDatabase;
@@ -17,23 +19,39 @@ import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private User user;
     private Workout workout = null;
+    Button saveBtn2, addBtn;
+    ExerciseAdapter adapter;
+    List<Exercise> exercises;
+    ListView lv_exercises;
+    private int edit = -1;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Button saveBtn2 = findViewById(R.id.saveBtn2);
+        saveBtn2 = findViewById(R.id.saveBtn2);
+        addBtn = findViewById(R.id.addBtn);
+        lv_exercises = findViewById(R.id.lv_listOfExercises);
 
-        Intent intent = getIntent();
-        user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(intent.getStringExtra("username"));
-        if(user.wid == -1){
+        //listen for incoming messages
+        Bundle incomingIntent = getIntent().getExtras();
+        user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(incomingIntent.getString("username"));
+        exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(user.wid);
+        adapter = new ExerciseAdapter(SettingsActivity.this, exercises);
+        lv_exercises.setAdapter(adapter);
+
+        if(user == null) System.out.println("XXXXXXXXXXXX| user is null |XXXXXXXXXXXX");
+        else if(user.wid == -1){
             System.out.println("--------------- Making new workout ---------------");
             workout = new Workout();
             int newWorkoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
@@ -42,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
             workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
             user.wid = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevWorkoutId() + 1;
             AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
-            System.out.println("setWorkout_id called from settings.onCreate to " + user.getWorkout_id());
             AppDatabase.getInstance(getApplicationContext()).workoutDao().insertAll(workout);
             //exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(workout.id);
         } else {
@@ -50,79 +67,69 @@ public class SettingsActivity extends AppCompatActivity {
             workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName);
         }
 
-        saveBtn2.setOnClickListener(new View.OnClickListener() {
+        if(incomingIntent.size() > 1) {
+            //capture incoming data
+            String name = incomingIntent.getString("name");
+            int weight = Integer.parseInt(incomingIntent.getString("weight"));
+            int sets = Integer.parseInt(incomingIntent.getString("sets"));
+            int reps = Integer.parseInt(incomingIntent.getString("reps"));
+            edit = incomingIntent.getInt("edit");
+
+            // create new exercise object
+            Exercise e = new Exercise();
+            e.name = name;
+            e.weight = weight;
+            e.sets = sets;
+            e.reps = reps;
+            e.workout_id = user.wid;
+
+            // add exercise to the list and update adapter
+            if(incomingIntent.size() > 5) {
+                e.id = edit;
+                System.out.println("EEEEEEEEEEEEEEEEEEEEEE - Edited " + e.name + ", with id = " + e.id + " - EEEEEEEEEEEEEEEEEEEEEE");
+                AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
+            }else
+                AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(e);
+            exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(user.wid);
+            adapter.notifyDataSetChanged();
+        }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int exCount = 0;
-
-                EditText ex1Name =  findViewById(R.id.ex1NameEditText);
-                EditText ex2Name =  findViewById(R.id.ex2NameEditText);
-                EditText ex3Name =  findViewById(R.id.ex3NameEditText);
-                EditText ex4Name =  findViewById(R.id.ex4NameEditText);
-                EditText ex5Name =  findViewById(R.id.ex5NameEditText);
-
-                EditText ex1Weight =  findViewById(R.id.ex1WeightEditText);
-                EditText ex2Weight =  findViewById(R.id.ex2WeightEditText);
-                EditText ex3Weight =  findViewById(R.id.ex3WeightEditText);
-                EditText ex4Weight =  findViewById(R.id.ex4WeightEditText);
-                EditText ex5Weight =  findViewById(R.id.ex5WeightEditText);
-
-                EditText ex1Sets =  findViewById(R.id.ex1SetsEditText);
-                EditText ex2Sets =  findViewById(R.id.ex2SetsEditText);
-                EditText ex3Sets =  findViewById(R.id.ex3SetsEditText);
-                EditText ex4Sets =  findViewById(R.id.ex4SetsEditText);
-                EditText ex5Sets =  findViewById(R.id.ex5SetsEditText);
-
-                EditText ex1Reps =  findViewById(R.id.ex1RepsEditText);
-                EditText ex2Reps =  findViewById(R.id.ex2RepsEditText);
-                EditText ex3Reps =  findViewById(R.id.ex3RepsEditText);
-                EditText ex4Reps =  findViewById(R.id.ex4RepsEditText);
-                EditText ex5Reps =  findViewById(R.id.ex5RepsEditText);
-
-                if(!ex5Name.getText().toString().equals("")) exCount = 5;
-                else if(!ex4Name.getText().toString().equals("")) exCount = 4;
-                else if(!ex3Name.getText().toString().equals("")) exCount = 3;
-                else if(!ex2Name.getText().toString().equals("")) exCount = 2;
-                else if(!ex1Name.getText().toString().equals("")) exCount = 1;
-
-                System.out.println("exCount = " + exCount);
-                //adding exercises to the DB
-                if(exCount >= 1){
-                    addExercise(ex1Name.getText().toString()
-                            , Integer.parseInt(ex1Weight.getText().toString())
-                            , Integer.parseInt(ex1Sets.getText().toString())
-                            , Integer.parseInt(ex1Reps.getText().toString()));
-                }
-                if(exCount >= 2) {
-                    addExercise(ex2Name.getText().toString()
-                            , Integer.parseInt(ex2Weight.getText().toString())
-                            , Integer.parseInt(ex2Sets.getText().toString())
-                            , Integer.parseInt(ex2Reps.getText().toString()));
-                }
-                if(exCount >= 3) {
-                    addExercise(ex3Name.getText().toString()
-                            ,Integer.parseInt(ex3Weight.getText().toString())
-                            ,Integer.parseInt(ex3Sets.getText().toString())
-                            ,Integer.parseInt(ex3Reps.getText().toString()));
-                }
-                if(exCount >= 4) {
-                    addExercise(ex4Name.getText().toString()
-                            ,Integer.parseInt(ex4Weight.getText().toString())
-                            ,Integer.parseInt(ex4Sets.getText().toString())
-                            ,Integer.parseInt(ex4Reps.getText().toString()));
-                }
-                if(exCount >= 5) {
-                    addExercise(ex5Name.getText().toString()
-                            ,Integer.parseInt(ex5Weight.getText().toString())
-                            ,Integer.parseInt(ex5Sets.getText().toString())
-                            ,Integer.parseInt(ex5Reps.getText().toString()));
-                }
-
+                Intent intent = new Intent(view.getContext(), NewExerciseForm.class);
+                intent.putExtra("username", user.userName);
+                startActivity(intent);
                 finish();
             }
         });
 
+        saveBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        lv_exercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                editExercise(position);
+            }
+        });
     }
+    public void editExercise(int position) {
+        Intent intent = new Intent(getApplicationContext(), NewExerciseForm.class);
+
+        // get the contents of exercise at position
+        Exercise e = exercises.get(position);
+
+        intent.putExtra("username", user.userName);
+        intent.putExtra("id", e.id);
+        startActivity(intent);
+        finish();
+    }
+
     private boolean addExercise(String name, int weight, int sets, int reps) {
         if(name != null) {
             Exercise ex = new Exercise();
@@ -131,7 +138,6 @@ public class SettingsActivity extends AppCompatActivity {
             ex.sets = sets;
             ex.reps = reps;
             ex.workout_id = user.wid;
-            System.out.println("ex.workout_id = " + ex.workout_id);
             AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(ex);
             return true;
         }

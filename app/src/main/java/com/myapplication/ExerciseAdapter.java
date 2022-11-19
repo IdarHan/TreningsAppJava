@@ -1,64 +1,65 @@
 package com.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.myapplication.data.Exercise;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseAdapter extends BaseAdapter {
 
-    LayoutInflater mInflater;
-    String[] names;
-    String[] weights;
-    String[] sets;
-    String[] reps;
+    private List<Exercise> exercises;
 
-    public ExerciseAdapter(Context c, String[] names, String[] weights, String[] sets, String[] reps) {
-        this.names = names;
-        this.weights = weights;
-        this.sets = sets;
-        this.reps = reps;
+    LayoutInflater mInflater;
+
+    public ExerciseAdapter(Context c, List<Exercise> exercises) {
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.exercises = exercises;
     }
 
     @Override
     public int getCount() {
-        return names.length;
+        return exercises.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return names[i];
+    public Exercise getItem(int position) {
+        return exercises.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = mInflater.inflate(R.layout.my_listview_detail, null);
-        EditText nameEditText= (EditText) v.findViewById(R.id.ex1NameEditText);
-        EditText weightEditText = (EditText) v.findViewById(R.id.ex1WeightEditText);
-        EditText setsEditText = (EditText) v.findViewById(R.id.ex1SetsEditText);
-        EditText repsEditText = (EditText) v.findViewById(R.id.ex1RepsEditText);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View oneExerciseLine = mInflater.inflate(R.layout.exercise_one_line, parent, false);
+        /*View oneExerciseLine;
+        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        oneExerciseLine = inflater.inflate(R.layout.exercise_one_line, parent, false);*/
 
+        TextView tv_name = oneExerciseLine.findViewById(R.id.tv_exName);
+        TextView tv_weight = oneExerciseLine.findViewById(R.id.tv_weight);
+        TextView tv_sets = oneExerciseLine.findViewById(R.id.tv_sets);
+        TextView tv_reps = oneExerciseLine.findViewById(R.id.tv_reps);
 
+        Exercise e = this.getItem(position);
 
-        String name = names[i];
-        String weight = weights[i];
-        String set = sets[i];
-        String rep = reps[i];
+        tv_name.setText(e.name);
+        tv_weight.setText(Integer.toString(e.weight));
+        tv_sets.setText(Integer.toString(e.sets));
+        tv_reps.setText(Integer.toString(e.reps));
 
-        nameEditText.setText(name);
-        weightEditText.setText(weight);
-        setsEditText.setText(set);
-        repsEditText.setText(rep);
-        return v;
+        return oneExerciseLine;
     }
 }

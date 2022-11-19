@@ -6,265 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <EditText
-        android:id="@+id/ex1WeightEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:hint="0"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex1NameEditText"
-        app:layout_constraintEnd_toEndOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintStart_toStartOf="@+id/exerciseWeightsTextView2" />
-
-    <EditText
-        android:id="@+id/ex2WeightEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:hint="0"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex2NameEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex1WeightEditText"
-        app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toStartOf="@+id/ex1WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex3WeightEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:hint="0"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex3NameEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex2WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex2WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex4WeightEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:hint="0"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex4NameEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex3WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex3WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex5WeightEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:hint="0"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex5NameEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex4WeightEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex4WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex1SetsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex1WeightEditText"
-        app:layout_constraintEnd_toEndOf="@+id/exerciseSetsTextView"
-        app:layout_constraintStart_toStartOf="@+id/exerciseSetsTextView"
-        app:layout_constraintTop_toTopOf="@+id/ex1WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex2SetsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="28dp"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex2WeightEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex1SetsEditText"
-        app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toStartOf="@+id/ex1SetsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex2WeightEditText"
-        app:layout_constraintVertical_bias="0.333" />
-
-    <EditText
-        android:id="@+id/ex2RepsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/ex2SetsEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex1RepsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex1RepsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex2SetsEditText"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/ex3SetsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex3WeightEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex2SetsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex2SetsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex3WeightEditText"
-        app:layout_constraintVertical_bias="0.428" />
-
-    <EditText
-        android:id="@+id/ex3RepsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/ex3SetsEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex2RepsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex2RepsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex3SetsEditText"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/ex4SetsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex4WeightEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex3SetsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex3SetsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex4WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex4RepsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/ex4SetsEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex3RepsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex3RepsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex4SetsEditText"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <EditText
-        android:id="@+id/ex5SetsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ex5WeightEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex4SetsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex4SetsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex5WeightEditText" />
-
-    <EditText
-        android:id="@+id/ex5RepsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/ex5SetsEditText"
-        app:layout_constraintEnd_toEndOf="@+id/ex4RepsEditText"
-        app:layout_constraintStart_toStartOf="@+id/ex4RepsEditText"
-        app:layout_constraintTop_toTopOf="@+id/ex5SetsEditText"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <EditText
-        android:id="@+id/ex1RepsEditText"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerHorizontal="true"
-        android:autofillHints=""
-        android:ems="5"
-        android:inputType="number"
-        android:minHeight="48dp"
-        android:hint="0"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/ex1SetsEditText"
-        app:layout_constraintEnd_toEndOf="@+id/exerciseRepsTextView"
-        app:layout_constraintStart_toStartOf="@+id/exerciseRepsTextView"
-        app:layout_constraintTop_toTopOf="@+id/ex1SetsEditText"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/saveBtn2"
         android:layout_width="wrap_content"
@@ -277,104 +18,85 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.927" />
 
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Add New Exercise"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.037" />
+
+    <ListView
+        android:id="@id/lv_listOfExercises"
+        android:layout_width="411dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_title" />
+
     <TextView
-        android:id="@+id/exerciseNameTextView"
-        android:layout_width="98dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
-        android:gravity="center_horizontal"
-        android:text="@string/exercise"
-        android:textSize="21sp"
+        android:id="@+id/tv_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Exercise"
+        android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addBtn" />
 
     <TextView
-        android:id="@+id/exerciseSetsTextView"
-        android:layout_width="54dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:gravity="center_horizontal"
-        android:text="Sets:"
-        android:textSize="21sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintStart_toEndOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintTop_toTopOf="@+id/exerciseWeightsTextView2"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/exerciseWeightsTextView2"
+        android:id="@+id/tv_weight_title"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginStart="24dp"
-        android:gravity="center_horizontal"
-        android:text="Weights:"
-        android:textSize="21sp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Weight"
+        android:textSize="24sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/exerciseNameTextView"
-        app:layout_constraintStart_toEndOf="@+id/exerciseNameTextView"
-        app:layout_constraintTop_toTopOf="@+id/exerciseNameTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name_title"
+        app:layout_constraintEnd_toStartOf="@+id/tv_sets_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_name_title" />
 
     <TextView
-        android:id="@+id/exerciseRepsTextView"
-        android:layout_width="54dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:gravity="center_horizontal"
-        android:text="@string/reps"
-        android:textSize="21sp"
+        android:id="@+id/tv_sets_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Sets"
+        android:textSize="24sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/exerciseSetsTextView"
-        app:layout_constraintStart_toEndOf="@+id/exerciseSetsTextView"
-        app:layout_constraintTop_toTopOf="@+id/exerciseSetsTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/tv_weight_title"
+        app:layout_constraintEnd_toStartOf="@+id/tv_reps_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_weight_title" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex2NameEditText"
-        android:layout_width="102dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="30dp"
-        android:hint="Exercise 2"
-        app:layout_constraintStart_toStartOf="@+id/ex1NameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/ex1NameEditText" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex1NameEditText"
-        android:layout_width="102dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="30dp"
-        android:hint="Exercise 1"
-        app:layout_constraintStart_toStartOf="@+id/exerciseNameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/exerciseNameTextView" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex4NameEditText"
-        android:layout_width="102dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="30dp"
-        android:hint="Exercise 4"
-        app:layout_constraintStart_toStartOf="@+id/ex3NameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/ex3NameEditText" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex3NameEditText"
-        android:layout_width="102dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="30dp"
-        android:hint="Exercise 3"
-        app:layout_constraintStart_toStartOf="@+id/ex2NameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/ex2NameEditText" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/ex5NameEditText"
-        android:layout_width="102dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="30dp"
-        android:hint="Exercise 5"
-        app:layout_constraintStart_toStartOf="@+id/ex4NameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/ex4NameEditText" />
+    <TextView
+        android:id="@+id/tv_reps_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Reps"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_sets_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_sets_title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

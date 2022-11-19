@@ -7,4 +7,5 @@
     <item name="exerciseRepsTextView" type="id" />
     <item name="ohpNameTextView" type="id" />
     <item name="squatNameTextView" type="id" />
+    <item name="lv_listOfExercises" type="id" />
 </resources>

@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     AppDatabase.getInstance(getApplicationContext()).workoutDao().nukeTable();
                     AppDatabase.getInstance(getApplicationContext()).userDao().nukeTable();
                     titleTextView.setText("\uD83D\uDCA5 NUKE DEPLOYED \uD83D\uDCA5");
+                    usernameTextView.setText("");
                 }
                 else if(!User.usernameAvailable(loginUsername, getApplicationContext())) {
                     user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(loginUsername);
