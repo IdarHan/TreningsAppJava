@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.myapplication.data.AppDatabase;
@@ -46,13 +47,10 @@ public class SettingsActivity extends AppCompatActivity {
         //listen for incoming messages
         Bundle incomingIntent = getIntent().getExtras();
         user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(incomingIntent.getString("username"));
-        exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(user.wid);
-        adapter = new ExerciseAdapter(SettingsActivity.this, exercises);
-        lv_exercises.setAdapter(adapter);
 
-        if(user == null) System.out.println("XXXXXXXXXXXX| user is null |XXXXXXXXXXXX");
+        if(user == null)
+            Toast.makeText(SettingsActivity.this, "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
         else if(user.wid == -1){
-            System.out.println("--------------- Making new workout ---------------");
             workout = new Workout();
             int newWorkoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
             workout.workoutNumber = newWorkoutNumber;
@@ -61,19 +59,18 @@ public class SettingsActivity extends AppCompatActivity {
             user.wid = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevWorkoutId() + 1;
             AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
             AppDatabase.getInstance(getApplicationContext()).workoutDao().insertAll(workout);
-            //exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(workout.id);
         } else {
-            System.out.println("--------------- Using old workout ---------------");
             workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName);
         }
 
         if(incomingIntent.size() > 1) {
             //capture incoming data
             String name = incomingIntent.getString("name");
-            int weight = Integer.parseInt(incomingIntent.getString("weight"));
-            int sets = Integer.parseInt(incomingIntent.getString("sets"));
-            int reps = Integer.parseInt(incomingIntent.getString("reps"));
+            int weight = incomingIntent.getInt("weight");
+            int sets = incomingIntent.getInt("sets");
+            int reps = incomingIntent.getInt("reps");
             edit = incomingIntent.getInt("edit");
+
 
             // create new exercise object
             Exercise e = new Exercise();
@@ -86,12 +83,13 @@ public class SettingsActivity extends AppCompatActivity {
             // add exercise to the list and update adapter
             if(incomingIntent.size() > 5) {
                 e.id = edit;
-                System.out.println("EEEEEEEEEEEEEEEEEEEEEE - Edited " + e.name + ", with id = " + e.id + " - EEEEEEEEEEEEEEEEEEEEEE");
                 AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
             }else
-                AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(e);
+                if (!addExercise(e)) Toast.makeText(SettingsActivity.this, "Input Error!", Toast.LENGTH_SHORT).show();
+
             exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(user.wid);
-            adapter.notifyDataSetChanged();
+            adapter = new ExerciseAdapter(SettingsActivity.this, exercises);
+            lv_exercises.setAdapter(adapter);
         }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -130,15 +128,10 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean addExercise(String name, int weight, int sets, int reps) {
-        if(name != null) {
-            Exercise ex = new Exercise();
-            ex.name = name;
-            ex.weight = weight;
-            ex.sets = sets;
-            ex.reps = reps;
-            ex.workout_id = user.wid;
-            AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(ex);
+    private boolean addExercise(Exercise exercise) {
+        if(exercise != null) {
+            if(!exercise.name.isEmpty())
+                AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(exercise);
             return true;
         }
         else return false;

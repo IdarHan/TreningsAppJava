@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
@@ -17,77 +18,51 @@ public class MainActivity extends AppCompatActivity {
     private boolean registering = false;
     private static User user;
 
+    private Button settingsBtn;
+    private Button workoutBtn;
+    private Button loginButton;
+    private Button registerBtn;
+    private Button logoutBtn;
+
+    private TextView titleTextView;
+    private TextView usernameTextView;
+    private TextView loginTextView;
+    private EditText usernameEditText;
+    private TextView registerTextView;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
+    private EditText emailEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button settingsBtn = (Button)findViewById(R.id.settingsBtn);
-        Button workoutBtn = (Button)findViewById(R.id.workoutBtn);
-        Button loginButton = (Button) findViewById(R.id.loginButton);
-        Button registerBtn = (Button) findViewById(R.id.registerBtn);
-        Button logoutBtn = (Button)findViewById(R.id.logoutButton);
+        settingsBtn = (Button)findViewById(R.id.settingsBtn);
+        workoutBtn = (Button)findViewById(R.id.workoutBtn);
+        loginButton = (Button) findViewById(R.id.loginButton);
+        registerBtn = (Button) findViewById(R.id.registerBtn);
+        logoutBtn = (Button)findViewById(R.id.logoutButton);
 
-        TextView titleTextView = findViewById(R.id.titleTextView);
-        TextView usernameTextView = findViewById(R.id.userNameTextView);
-        TextView loginTextView = findViewById(R.id.loginTextView);
-        EditText usernameEditText = findViewById(R.id.userNameEditText);
-        TextView registerTextView = findViewById(R.id.registerTextView);
-        EditText firstNameEditText = findViewById(R.id.firstNameEditText);
-        EditText lastNameEditText = findViewById(R.id.lastNameEditText);
-        EditText emailEditText = findViewById(R.id.emailEditText);
+        titleTextView = findViewById(R.id.titleTextView);
+        usernameTextView = findViewById(R.id.userNameTextView);
+        loginTextView = findViewById(R.id.loginTextView);
+        usernameEditText = findViewById(R.id.userNameEditText);
+        registerTextView = findViewById(R.id.registerTextView);
+        firstNameEditText = findViewById(R.id.firstNameEditText);
+        lastNameEditText = findViewById(R.id.lastNameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
 
-        loginTextView.setVisibility(View.GONE);
-        firstNameEditText.setVisibility(View.GONE);
-        lastNameEditText.setVisibility(View.GONE);
-        emailEditText.setVisibility(View.GONE);
         if(logged) {
-            // Visible
-            workoutBtn.setVisibility(View.VISIBLE);
-            settingsBtn.setVisibility(View.VISIBLE);
-
-            // Invisible
-            logoutBtn.setVisibility(View.VISIBLE);
-
-            registerTextView.setVisibility(View.GONE);
-            registerBtn.setVisibility(View.GONE);
-            loginButton.setVisibility(View.GONE);
-            loginTextView.setVisibility(View.GONE);
-            loginButton.setVisibility(View.GONE);
-            loginTextView.setVisibility(View.GONE);
+            uiLoggedIn();
         } else {
-            // Visible
-            registerTextView.setVisibility(View.VISIBLE);
-            registerBtn.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.VISIBLE);
-            loginTextView.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.VISIBLE);
-            loginTextView.setVisibility(View.VISIBLE);
-
-            // Invisible
-            logoutBtn.setVisibility(View.GONE);
-            workoutBtn.setVisibility(View.GONE);
-            settingsBtn.setVisibility(View.GONE);
+            uiLoggedOut();
         }
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Visible
-                usernameEditText.setVisibility(View.VISIBLE);
-                firstNameEditText.setVisibility(View.VISIBLE);
-                lastNameEditText.setVisibility(View.VISIBLE);
-                emailEditText.setVisibility(View.VISIBLE);
-
-                // Invisible
-                titleTextView.setText("");
-                usernameTextView.setText("");
-                loginButton.setVisibility(View.GONE);
-                loginTextView.setVisibility(View.GONE);
-                workoutBtn.setVisibility(View.GONE);
-                settingsBtn.setVisibility(View.GONE);
-                registerTextView.setVisibility(View.GONE);
-
+                uiRegister();
                 // Registering
                 if(!registering) registering = true;
                 else {
@@ -103,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         user.lastName = lastNameEditText.getText().toString();
                         user.email = emailEditText.getText().toString();
                         AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(user);
+                        registering = false;
                         loginButton.callOnClick();
                     }
                     else {
@@ -141,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     AppDatabase.getInstance(getApplicationContext()).userDao().nukeTable();
                     titleTextView.setText("\uD83D\uDCA5 NUKE DEPLOYED \uD83D\uDCA5");
                     usernameTextView.setText("");
+                    usernameEditText.setText("");
                 }
                 else if(!User.usernameAvailable(loginUsername, getApplicationContext())) {
                     user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(loginUsername);
@@ -151,21 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                     user.setWorkout_id(-1);
                     AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
-
-                    // Visible
-                    workoutBtn.setVisibility(View.VISIBLE);
-                    settingsBtn.setVisibility(View.VISIBLE);
-                    logoutBtn.setVisibility(View.VISIBLE);
-
-                    // Invisible
-                    loginButton.setVisibility(View.GONE);
-                    usernameEditText.setVisibility(View.GONE);
-                    loginTextView.setVisibility(View.GONE);
-                    registerTextView.setVisibility(View.GONE);
-                    registerBtn.setVisibility(View.GONE);
-                    firstNameEditText.setVisibility(View.GONE);
-                    lastNameEditText.setVisibility(View.GONE);
-                    emailEditText.setVisibility(View.GONE);
+                    uiLoggedIn();
                 }
                 else {
                     titleTextView.setText("User doesn't exist.");
@@ -181,28 +144,72 @@ public class MainActivity extends AppCompatActivity {
                 user = null;
                 logged = false;
                 usernameEditText.setText("");
-
+                firstNameEditText.setText("");
+                lastNameEditText.setText("");
+                emailEditText.setText("");
 
                 usernameTextView.setText("pumper!");
                 titleTextView.setText("You are logged out,");
-
-                // Visible
-                usernameEditText.setVisibility(View.VISIBLE);
-                registerTextView.setVisibility(View.VISIBLE);
-                registerBtn.setVisibility(View.VISIBLE);
-                loginButton.setVisibility(View.VISIBLE);
-                loginTextView.setVisibility(View.VISIBLE);
-                loginButton.setVisibility(View.VISIBLE);
-                loginTextView.setVisibility(View.VISIBLE);
-
-                // Invisible
-                logoutBtn.setVisibility(View.GONE);
-                workoutBtn.setVisibility(View.GONE);
-                settingsBtn.setVisibility(View.GONE);
+                uiLoggedOut();
             }
         });
     }
 
+    private void uiLoggedIn() {
+        Toast.makeText(MainActivity.this, "UI: Logged in", Toast.LENGTH_SHORT).show();
+        // Visible
+        workoutBtn.setVisibility(View.VISIBLE);
+        settingsBtn.setVisibility(View.VISIBLE);
+        logoutBtn.setVisibility(View.VISIBLE);
+
+        // Invisible
+        loginButton.setVisibility(View.GONE);
+        usernameEditText.setVisibility(View.GONE);
+        loginTextView.setVisibility(View.GONE);
+        registerTextView.setVisibility(View.GONE);
+        registerBtn.setVisibility(View.GONE);
+        firstNameEditText.setVisibility(View.GONE);
+        lastNameEditText.setVisibility(View.GONE);
+        emailEditText.setVisibility(View.GONE);
+    }
+
+    private void uiLoggedOut() {
+        Toast.makeText(MainActivity.this, "UI: Logged out", Toast.LENGTH_SHORT).show();
+        // Visible
+        usernameEditText.setVisibility(View.VISIBLE);
+        registerTextView.setVisibility(View.VISIBLE);
+        registerBtn.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        loginTextView.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        loginTextView.setVisibility(View.VISIBLE);
+
+        // Invisible
+        logoutBtn.setVisibility(View.GONE);
+        workoutBtn.setVisibility(View.GONE);
+        settingsBtn.setVisibility(View.GONE);
+        firstNameEditText.setVisibility(View.GONE);
+        lastNameEditText.setVisibility(View.GONE);
+        emailEditText.setVisibility(View.GONE);
+    }
+
+    private void uiRegister() {
+        Toast.makeText(MainActivity.this, "UI: Register", Toast.LENGTH_SHORT).show();
+        // Visible
+        usernameEditText.setVisibility(View.VISIBLE);
+        firstNameEditText.setVisibility(View.VISIBLE);
+        lastNameEditText.setVisibility(View.VISIBLE);
+        emailEditText.setVisibility(View.VISIBLE);
+
+        // Invisible
+        titleTextView.setText("");
+        usernameTextView.setText("");
+        loginButton.setVisibility(View.GONE);
+        loginTextView.setVisibility(View.GONE);
+        workoutBtn.setVisibility(View.GONE);
+        settingsBtn.setVisibility(View.GONE);
+        registerTextView.setVisibility(View.GONE);
+    }
 
     public static User getUser() {
         return user;

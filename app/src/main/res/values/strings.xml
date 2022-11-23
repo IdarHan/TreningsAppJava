@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TreningsAppJava</string>
     <string name="workout">Workout</string>
-    <string name="get_fuckin_pumped_boi">Get fuckin pumped</string>
+    <string name="get_fuckin_pumped_boi">Are you ready to pump?</string>
     <string name="username"></string>
     <string name="login">Log in!</string>
     <string name="settings">Settings</string>
@@ -21,37 +21,8 @@
     <string name="overhead_press">Overhead Press</string>
     <string name="reps">Reps:</string>
     <string name="register">New pumper?</string>
-
-    <string-array name="name">
-        <item>ex1</item>
-        <item>ex2</item>
-        <item>ex3</item>
-        <item>ex4</item>
-        <item>ex5</item>
-    </string-array>
-
-    <string-array name="weight">
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-    </string-array>
-
-    <string-array name="sets">
-        <item>5</item>
-        <item>5</item>
-        <item>3</item>
-        <item>3</item>
-        <item>5</item>
-    </string-array>
-
-    <string-array name="reps">
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>8</item>
-        <item>5</item>
-    </string-array>
+    <string name="deleteEx">Delete exercise?</string>
+    <string name="yes">Yesolol</string>
+    <string name="no">Noolol</string>
 
 </resources>

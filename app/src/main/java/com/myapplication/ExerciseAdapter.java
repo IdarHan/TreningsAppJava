@@ -44,9 +44,6 @@ public class ExerciseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View oneExerciseLine = mInflater.inflate(R.layout.exercise_one_line, parent, false);
-        /*View oneExerciseLine;
-        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        oneExerciseLine = inflater.inflate(R.layout.exercise_one_line, parent, false);*/
 
         TextView tv_name = oneExerciseLine.findViewById(R.id.tv_exName);
         TextView tv_weight = oneExerciseLine.findViewById(R.id.tv_weight);
