@@ -48,15 +48,16 @@
 
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_width="283dp"
+        android:layout_height="28dp"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="true"
         android:layout_marginStart="70dp"
         android:layout_marginTop="50dp"
         android:clickable="false"
         android:contentDescription="@string/setprogression"
-        android:max="1" />
+        android:max="1"
+        android:scaleY="2" />
 
     <EditText
         android:id="@+id/weightEditText"

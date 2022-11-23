@@ -29,6 +29,9 @@ public interface ExerciseDao {
     @Delete
     void delete(Exercise exercise);
 
+    @Query("DELETE FROM exercise_table WHERE (workout_id LIKE :workout_id)")
+    void deleteExercisesByWid(int workout_id);
+
     @Query("DELETE FROM exercise_table")
     void nukeTable();
 }

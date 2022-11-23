@@ -14,6 +14,7 @@
     <string name="_0">0</string>
     <string name="exercise">Exercise:</string>
     <string name="_5">5</string>
+    <string name="blank">blank</string>
     <string name="deadlift">Deadlift</string>
     <string name="dumbbell_press">Dumbbell Press</string>
     <string name="barbell_rows">Barbell Rows</string>
@@ -24,5 +25,6 @@
     <string name="deleteEx">Delete exercise?</string>
     <string name="yes">Yesolol</string>
     <string name="no">Noolol</string>
+    <string name="new_template_name">Save workout as template?</string>
 
 </resources>

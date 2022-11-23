@@ -21,4 +21,6 @@ public class Workout {
     public int workoutNumber;
     @ColumnInfo(name = "date")
     public String time;
+    @ColumnInfo(name = "template_name")
+    public String templateName;
 }

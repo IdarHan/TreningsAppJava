@@ -12,15 +12,15 @@ public class YesNoDialogFragment extends DialogFragment { //TODO NOT IN USE - US
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.deleteEx)
+        builder.setMessage("Insert message here")
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // START THE GAME!
+                        // do Yes stuff
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        // do No stuff
                     }
                 });
         // Create the AlertDialog object and return it

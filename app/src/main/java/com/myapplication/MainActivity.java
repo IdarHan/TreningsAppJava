@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,22 +17,10 @@ import com.myapplication.data.User;
 public class MainActivity extends AppCompatActivity {
     private boolean logged = false;
     private boolean registering = false;
-    private static User user;
 
-    private Button settingsBtn;
-    private Button workoutBtn;
-    private Button loginButton;
-    private Button registerBtn;
-    private Button logoutBtn;
-
-    private TextView titleTextView;
-    private TextView usernameTextView;
-    private TextView loginTextView;
-    private EditText usernameEditText;
-    private TextView registerTextView;
-    private EditText firstNameEditText;
-    private EditText lastNameEditText;
-    private EditText emailEditText;
+    private Button settingsBtn, workoutBtn, loginButton, registerBtn, logoutBtn;
+    private TextView titleTextView, usernameTextView, loginTextView, registerTextView;
+    private EditText usernameEditText, firstNameEditText, lastNameEditText, emailEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +61,31 @@ public class MainActivity extends AppCompatActivity {
                         usernameTextView.setText("O.O");
                     }
                     else if(User.usernameAvailable(wantedUsername, getApplicationContext())) {
-                        User user = new User();
-                        user.userName = usernameEditText.getText().toString();
-                        user.firstName = firstNameEditText.getText().toString();
-                        user.lastName = lastNameEditText.getText().toString();
-                        user.email = emailEditText.getText().toString();
-                        AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(user);
-                        registering = false;
-                        loginButton.callOnClick();
+                        if(TextUtils.isEmpty(usernameEditText.getText()) || TextUtils.isEmpty(firstNameEditText.getText())
+                                || TextUtils.isEmpty(lastNameEditText.getText()) || TextUtils.isEmpty(emailEditText.getText())) {
+                            if (TextUtils.isEmpty(usernameEditText.getText())) {
+                                //usernameEditText.setError("Username is required!");
+                            }if (TextUtils.isEmpty(firstNameEditText.getText())) {
+                                //firstNameEditText.setError("First name is required!");
+                            } if (TextUtils.isEmpty(lastNameEditText.getText())) {
+                                //lastNameEditText.setError("Last name is required!");
+                            } if (TextUtils.isEmpty(emailEditText.getText())) {
+                                //emailEditText.setError("Email is required!");
+                            }
+                            Toast.makeText(MainActivity.this, "Incomplete Input!", Toast.LENGTH_SHORT).show();
+                            uiLoggedOut();
+                            registering = false;
+                        }
+                        else {
+                            User user = new User();
+                            user.userName = usernameEditText.getText().toString();
+                            user.firstName = firstNameEditText.getText().toString();
+                            user.lastName = lastNameEditText.getText().toString();
+                            user.email = emailEditText.getText().toString();
+                            AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(user);
+                            registering = false;
+                            loginButton.callOnClick();
+                        }
                     }
                     else {
                         titleTextView.setText("Username is taken!");
@@ -93,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), WorkoutActivity.class);
-                intent.putExtra("username", user.userName);
                 startActivity(intent);
             }
         });
@@ -102,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                intent.putExtra("username", user.userName);
                 startActivity(intent);
             }
         });
@@ -120,14 +124,14 @@ public class MainActivity extends AppCompatActivity {
                     usernameEditText.setText("");
                 }
                 else if(!User.usernameAvailable(loginUsername, getApplicationContext())) {
-                    user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(loginUsername);
-                    System.out.println("User logged in: " + user);
+                    setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(loginUsername));
+                    System.out.println("User logged in: " + getUser());
                     logged = true;
-                    usernameTextView.setText(user.userName + "!");
+                    usernameTextView.setText(getUser().userName + "!");
                     titleTextView.setText("Get fuckin pumped,");
 
-                    user.setWorkout_id(-1);
-                    AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
+                    getUser().setWorkout_id(-1);
+                    AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
                     uiLoggedIn();
                 }
                 else {
@@ -140,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("setWorkout called from main.logout to " + false);
-                user = null;
+                setUser(null);
                 logged = false;
                 usernameEditText.setText("");
                 firstNameEditText.setText("");
@@ -156,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uiLoggedIn() {
-        Toast.makeText(MainActivity.this, "UI: Logged in", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "UI: Logged in", Toast.LENGTH_SHORT).show();
         // Visible
         workoutBtn.setVisibility(View.VISIBLE);
         settingsBtn.setVisibility(View.VISIBLE);
@@ -174,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uiLoggedOut() {
-        Toast.makeText(MainActivity.this, "UI: Logged out", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "UI: Logged out", Toast.LENGTH_SHORT).show();
         // Visible
         usernameEditText.setVisibility(View.VISIBLE);
         registerTextView.setVisibility(View.VISIBLE);
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uiRegister() {
-        Toast.makeText(MainActivity.this, "UI: Register", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "UI: Register", Toast.LENGTH_SHORT).show();
         // Visible
         usernameEditText.setVisibility(View.VISIBLE);
         firstNameEditText.setVisibility(View.VISIBLE);
@@ -211,7 +214,11 @@ public class MainActivity extends AppCompatActivity {
         registerTextView.setVisibility(View.GONE);
     }
 
-    public static User getUser() {
-        return user;
+    private void setUser(User user) {
+        ((MyApplication) this.getApplication()).setCurrentUser(user);
+    }
+
+    public User getUser() {
+        return ((MyApplication) this.getApplication()).getCurrentUser();
     }
 }

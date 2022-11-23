@@ -26,13 +26,11 @@ import java.util.Date;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private User user;
     private Workout workout = null;
-    Button saveBtn2, addBtn;
-    ExerciseAdapter adapter;
-    List<Exercise> exercises;
-    ListView lv_exercises;
+    private Button saveBtn2, addBtn, btn_template;
+    private ExerciseAdapter adapter;
+    private List<Exercise> exercises;
+    private ListView lv_exercises;
     private int edit = -1;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -40,30 +38,34 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         saveBtn2 = findViewById(R.id.saveBtn2);
         addBtn = findViewById(R.id.addBtn);
+        btn_template = findViewById(R.id.btn_goToTemplate);
         lv_exercises = findViewById(R.id.lv_listOfExercises);
 
         //listen for incoming messages
         Bundle incomingIntent = getIntent().getExtras();
-        user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(incomingIntent.getString("username"));
+        exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(getUser().wid);
+        adapter = new ExerciseAdapter(SettingsActivity.this, exercises);
+        lv_exercises.setAdapter(adapter);
 
-        if(user == null)
+        if(getUser() == null)
             Toast.makeText(SettingsActivity.this, "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
-        else if(user.wid == -1){
+        else if(getUser().wid == -1){
             workout = new Workout();
-            int newWorkoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
+            int newWorkoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(getUser().userName) + 1;
             workout.workoutNumber = newWorkoutNumber;
-            workout.username = user.userName;
+            workout.username = getUser().userName;
             workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
-            user.wid = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevWorkoutId() + 1;
-            AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(user);
+            getUser().wid = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevWorkoutId() + 1;
+            AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
             AppDatabase.getInstance(getApplicationContext()).workoutDao().insertAll(workout);
         } else {
-            workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName);
+            workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(getUser().userName);
         }
 
-        if(incomingIntent.size() > 1) {
+        if(incomingIntent != null && incomingIntent.size() > 0) {
             //capture incoming data
             String name = incomingIntent.getString("name");
             int weight = incomingIntent.getInt("weight");
@@ -78,25 +80,27 @@ public class SettingsActivity extends AppCompatActivity {
             e.weight = weight;
             e.sets = sets;
             e.reps = reps;
-            e.workout_id = user.wid;
+            e.workout_id = getUser().wid;
 
             // add exercise to the list and update adapter
-            if(incomingIntent.size() > 5) {
+            if(incomingIntent.size() > 4) {
                 e.id = edit;
                 AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
-            }else
-                if (!addExercise(e)) Toast.makeText(SettingsActivity.this, "Input Error!", Toast.LENGTH_SHORT).show();
+            }else if (!addExercise(e))
+                Toast.makeText(SettingsActivity.this, "Input Error!", Toast.LENGTH_SHORT).show();
 
-            exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(user.wid);
+            // refresh the displayed exercises list
+            exercises = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findByWorkoutID(getUser().wid);
             adapter = new ExerciseAdapter(SettingsActivity.this, exercises);
             lv_exercises.setAdapter(adapter);
+
+
         }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), NewExerciseForm.class);
-                intent.putExtra("username", user.userName);
                 startActivity(intent);
                 finish();
             }
@@ -105,6 +109,15 @@ public class SettingsActivity extends AppCompatActivity {
         saveBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btn_template.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TemplateActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -122,7 +135,6 @@ public class SettingsActivity extends AppCompatActivity {
         // get the contents of exercise at position
         Exercise e = exercises.get(position);
 
-        intent.putExtra("username", user.userName);
         intent.putExtra("id", e.id);
         startActivity(intent);
         finish();
@@ -130,10 +142,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private boolean addExercise(Exercise exercise) {
         if(exercise != null) {
-            if(!exercise.name.isEmpty())
+            if(!exercise.name.isEmpty()) {
+                System.out.println("Adding exercise to database! " + exercise.workout_id);
                 AppDatabase.getInstance(getApplicationContext()).exerciseDao().insertAll(exercise);
+            }
             return true;
         }
         else return false;
+    }
+
+    public User getUser() {
+        return ((MyApplication) this.getApplication()).getCurrentUser();
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
+import com.myapplication.data.User;
 
 public class NewExerciseForm extends AppCompatActivity {
 
@@ -31,8 +32,6 @@ public class NewExerciseForm extends AppCompatActivity {
         setContentView(R.layout.activity_new_exercise_form);
         Bundle incomingIntent = getIntent().getExtras();
 
-        String username = incomingIntent.getString("username");
-
         btn_ok = findViewById(R.id.btn_ok);
         btn_cancel = findViewById(R.id.btn_cancel);
         btn_delete = findViewById(R.id.btn_delete);
@@ -44,7 +43,7 @@ public class NewExerciseForm extends AppCompatActivity {
         et_sets = findViewById(R.id.et_sets);
         et_reps = findViewById(R.id.et_reps);
 
-        if(incomingIntent.size() > 1) {
+        if(incomingIntent != null) {
             int id = incomingIntent.getInt("id");
             if(id != -1) {
                 edit = id;
@@ -88,17 +87,14 @@ public class NewExerciseForm extends AppCompatActivity {
                     int newReps = Integer.parseInt(et_reps.getText().toString());
 
                     //put the strings into a message for SettingActivity
-
-                    //start SettingActivity again
-
                     Intent intent = new Intent(view.getContext(), SettingsActivity.class);
                     intent.putExtra("name", newExName);
                     intent.putExtra("weight", newWeight);
                     intent.putExtra("sets", newSets);
                     intent.putExtra("reps", newReps);
-                    intent.putExtra("username", username);
-                    System.out.println("------------------------------------------ username is" + username);
                     if (edit != -1) intent.putExtra("edit", edit);
+
+                    //start SettingActivity again
                     startActivity(intent);
                     finish();
                 }
@@ -118,7 +114,6 @@ public class NewExerciseForm extends AppCompatActivity {
                                 // on below line we are displaying a toast message.
                                 Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(view.getContext(), SettingsActivity.class);
-                                intent.putExtra("username", username);
 
                                 // delete the exercise
                                 Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
@@ -158,7 +153,6 @@ public class NewExerciseForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), SettingsActivity.class);
-                intent.putExtra("username", username);
                 startActivity(intent);
                 finish();
             }
@@ -186,11 +180,7 @@ public class NewExerciseForm extends AppCompatActivity {
         }
     }
 
-    private boolean validateInput(String name, String weight, String sets, String reps) {
-        if(true) {
-
-            return false;
-        }
-        else return true;
+    public User getUser() {
+        return ((MyApplication) this.getApplication()).getCurrentUser();
     }
 }

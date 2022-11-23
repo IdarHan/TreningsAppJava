@@ -28,7 +28,6 @@ public class WorkoutActivity extends AppCompatActivity {
     private String[] weights;
     private String[] sets;
     private String[] reps;
-    private User user;
     private Workout workout;
 
 
@@ -42,21 +41,17 @@ public class WorkoutActivity extends AppCompatActivity {
         noExTextView.setVisibility(View.GONE);
 
 
-
-        Intent intent = getIntent();
-        user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(intent.getStringExtra("username"));
-        if(user.getWorkout_id() == -1){
+        if(getUser().getWorkout_id() == -1){
             System.out.println("--------------- Making new workout ---------------");
             workout = new Workout();
-            workout.workoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
-            workout.username = user.userName;
+            workout.workoutNumber = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkoutNum(getUser().userName) + 1;
+            workout.username = getUser().userName;
             workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
-            user.setWorkout_id(AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName).id + 1);
-            System.out.println("setWorkout_id called from workout.onCreate to " + user.getWorkout_id());
+            getUser().setWorkout_id(AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(getUser().userName).id + 1);
             AppDatabase.getInstance(getApplicationContext()).workoutDao().insertAll(workout);
         }else {
             System.out.println("--------------- Using old workout ---------------");
-            workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(user.userName);
+            workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(getUser().userName);
         }
 
 
@@ -64,7 +59,6 @@ public class WorkoutActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(user.userName + " finished workout!");
                 finish();
             }
         });
@@ -72,7 +66,6 @@ public class WorkoutActivity extends AppCompatActivity {
         if(exercises.isEmpty()) noExTextView.setVisibility(View.VISIBLE);
         printExercises(exercises);
 
-        Resources res = getResources();
         myListView = findViewById(R.id.myListView);
         names = new String[exercises.size()];
         weights = new String[exercises.size()];
@@ -90,17 +83,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
         WorkoutAdapter workoutAdapter = new WorkoutAdapter(this, names, weights, sets, reps);
         myListView.setAdapter(workoutAdapter);
-    }
-
-    void printUsers() {
-        /*UserDao userDao = db.userDao();
-        List<User> userList = userDao.getAll();
-
-        System.out.println("Printing users...");
-        for(User u : userList) {
-            System.out.println(u.firstName + " " + u.lastName + ", ID = " + u.id + ", email = " + u.email);
-        }
-        System.out.println("Printing users done.");*/
     }
 
     void printWorkouts() {
@@ -122,5 +104,9 @@ public class WorkoutActivity extends AppCompatActivity {
                     ", exName " + e.name + ", " + e.reps + "x" + e.sets + " " + e.weight + "kg");
         }
         System.out.println("Printing exercises done.");
+    }
+
+    public User getUser() {
+        return ((MyApplication) this.getApplication()).getCurrentUser();
     }
 }

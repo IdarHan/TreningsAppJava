@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TreningsAppJava"
         tools:targetApi="31">
         <activity
+            android:name=".TemplateActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewExerciseForm"
             android:exported="false" />
         <activity
