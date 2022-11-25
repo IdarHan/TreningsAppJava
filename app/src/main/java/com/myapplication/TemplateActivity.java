@@ -58,10 +58,10 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
             }
         }
         // Creating adapter for spinner
-        dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, templateList);
+        dataAdapter = new ArrayAdapter<String>(this, R.layout.my_selected_item, templateList);
 
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(R.layout.my_dropdown_item);
 
         // attaching data adapter to spinner
         spin_template.setAdapter(dataAdapter);
@@ -133,6 +133,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
     }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+        // Do I need to do anything here?
         String item = adapterView.getItemAtPosition(0).toString();
     }
 

@@ -56,14 +56,14 @@
 
     <Spinner
         android:id="@+id/spin_templates"
-        android:layout_width="408dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/blank"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_apply_template"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="@+id/btn_apply_template"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

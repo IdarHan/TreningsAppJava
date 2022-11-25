@@ -9,9 +9,9 @@
         android:id="@+id/tv_exName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="exerciseName"
+        android:text="exercise"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,28 +20,28 @@
         android:id="@+id/tv_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:text="weight"
+        android:layout_marginEnd="195dp"
+        android:text="wei"
         android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_sets"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_exName" />
 
     <TextView
         android:id="@+id/tv_sets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="55dp"
-        android:text="sets"
+        android:layout_marginEnd="135dp"
+        android:text="se"
         android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_reps"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_weight" />
 
     <TextView
         android:id="@+id/tv_reps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:text="reps"
+        android:layout_marginEnd="75dp"
+        android:text="re"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_sets" />

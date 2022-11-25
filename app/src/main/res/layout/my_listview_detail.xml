@@ -8,16 +8,16 @@
 
     <TextView
         android:id="@+id/seekBarValue"
-        android:layout_width="19dp"
-        android:layout_height="wrap_content"
+        android:layout_width="27dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/setsTextView"
-        android:layout_marginStart="6dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="0dp"
         android:layout_toEndOf="@+id/seekBar"
+        android:gravity="center_horizontal"
         android:text="@string/_0"
-        android:textSize="14sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/nameTextView"
@@ -28,12 +28,13 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="0dp"
+        android:gravity="center_horizontal"
         android:text="@string/name"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/setsTextView"
-        android:layout_width="59dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/kgTextView"
         android:layout_alignBottom="@+id/kgTextView"
@@ -48,11 +49,11 @@
 
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="283dp"
-        android:layout_height="28dp"
-        android:layout_alignParentStart="false"
+        android:layout_width="298dp"
+        android:layout_height="29dp"
+        android:layout_alignStart="@+id/nameTextView"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="-10dp"
         android:layout_marginTop="50dp"
         android:clickable="false"
         android:contentDescription="@string/setprogression"
@@ -71,11 +72,12 @@
         android:ems="5"
         android:inputType="number"
         android:minHeight="48dp"
+        android:gravity="center_horizontal"
         android:text="@string/_000" />
 
     <TextView
         android:id="@+id/kgTextView"
-        android:layout_width="41dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
