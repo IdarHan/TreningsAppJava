@@ -1,4 +1,5 @@
-package com.myapplication;
+/*
+package com.myapplication.settings;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,18 +11,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.myapplication.ExerciseAdapter;
+import com.myapplication.MyApplication;
+import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
 
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -154,4 +155,4 @@ public class SettingsActivity extends AppCompatActivity {
     public User getUser() {
         return ((MyApplication) this.getApplication()).getCurrentUser();
     }
-}
+}*/

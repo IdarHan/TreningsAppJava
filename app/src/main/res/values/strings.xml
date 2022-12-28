@@ -26,5 +26,7 @@
     <string name="yes">Yesolol</string>
     <string name="no">Noolol</string>
     <string name="new_template_name">Save workout as template?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

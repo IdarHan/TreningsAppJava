@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewExerciseForm">
+    tools:context=".settings.NewExerciseForm">
 
     <include
         android:id="@+id/include"
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".NewExerciseForm">
+        tools:context=".settings.NewExerciseForm">
 
         <!--on below line we are creating
             a text for heading of our app-->

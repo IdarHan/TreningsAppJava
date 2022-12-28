@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.myapplication.HomeActivity;
+import com.myapplication.MyApplication;
+import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
@@ -87,7 +90,7 @@ public class NewExerciseForm extends AppCompatActivity {
                     int newReps = Integer.parseInt(et_reps.getText().toString());
 
                     //put the strings into a message for SettingActivity
-                    Intent intent = new Intent(view.getContext(), SettingsActivity.class);
+                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
                     intent.putExtra("name", newExName);
                     intent.putExtra("weight", newWeight);
                     intent.putExtra("sets", newSets);
@@ -113,7 +116,7 @@ public class NewExerciseForm extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // on below line we are displaying a toast message.
                                 Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(view.getContext(), SettingsActivity.class);
+                                Intent intent = new Intent(view.getContext(), HomeActivity.class);
 
                                 // delete the exercise
                                 Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
@@ -152,7 +155,7 @@ public class NewExerciseForm extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SettingsActivity.class);
+                Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
             }

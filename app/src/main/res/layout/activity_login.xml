@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/settingsBtn"
-        android:layout_width="183dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/settings"
-        android:textSize="24sp"
-        app:iconTint="#323131"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".LoginActivity">
 
     <TextView
         android:id="@+id/titleTextView"
@@ -30,17 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121" />
-
-    <Button
-        android:id="@+id/workoutBtn"
-        android:layout_width="183dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/workout"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/settingsBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/userNameEditText"
@@ -144,15 +121,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/userNameTextView"
         app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
-
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/registerBtn"

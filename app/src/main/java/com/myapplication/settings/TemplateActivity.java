@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,14 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myapplication.HomeActivity;
+import com.myapplication.MyApplication;
+import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
 
-import java.lang.reflect.GenericArrayType;
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TemplateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -83,7 +83,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
                 // update workout in db
                 AppDatabase.getInstance(getApplicationContext()).workoutDao().updateWorkout(workout);
 
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -110,7 +110,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
         btn_backFromTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
