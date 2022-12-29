@@ -58,12 +58,12 @@
         app:layout_constraintTop_toBottomOf="@+id/loginTextView" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/firstNameEditText"
+        android:id="@+id/nameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
-        android:hint="First Name"
+        android:hint="Name"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/userNameEditText"
         app:layout_constraintHorizontal_bias="0.472"
@@ -71,16 +71,16 @@
         app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/lastNameEditText"
+        android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
-        android:hint="Last Name"
+        android:hint="*********"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/firstNameEditText"
-        app:layout_constraintStart_toStartOf="@+id/firstNameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameEditText" />
+        app:layout_constraintEnd_toEndOf="@+id/nameEditText"
+        app:layout_constraintStart_toStartOf="@+id/nameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/emailEditText"
@@ -90,10 +90,10 @@
         android:gravity="center_horizontal"
         android:hint="Email"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/lastNameEditText"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditText"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/lastNameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameEditText" />
+        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <TextView
         android:id="@+id/userNameTextView"

@@ -1,16 +1,20 @@
 package com.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
 
@@ -20,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button settingsBtn, workoutBtn, loginButton, registerBtn, logoutBtn;
     private TextView titleTextView, usernameTextView, loginTextView, registerTextView;
-    private EditText usernameEditText, firstNameEditText, lastNameEditText, emailEditText;
+    private EditText usernameEditText, nameEditText, passwordEditText, emailEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         loginTextView = findViewById(R.id.loginTextView);
         usernameEditText = findViewById(R.id.userNameEditText);
         registerTextView = findViewById(R.id.registerTextView);
-        firstNameEditText = findViewById(R.id.firstNameEditText);
-        lastNameEditText = findViewById(R.id.lastNameEditText);
+        nameEditText = findViewById(R.id.nameEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
         emailEditText = findViewById(R.id.emailEditText);
 
         if(logged) {
@@ -61,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
                         usernameTextView.setText("O.O");
                     }
                     else if(User.usernameAvailable(wantedUsername, getApplicationContext())) {
-                        if(TextUtils.isEmpty(usernameEditText.getText()) || TextUtils.isEmpty(firstNameEditText.getText())
-                                || TextUtils.isEmpty(lastNameEditText.getText()) || TextUtils.isEmpty(emailEditText.getText())) {
+                        if(TextUtils.isEmpty(usernameEditText.getText()) || TextUtils.isEmpty(nameEditText.getText())
+                                || TextUtils.isEmpty(passwordEditText.getText()) || TextUtils.isEmpty(emailEditText.getText())) {
                             if (TextUtils.isEmpty(usernameEditText.getText())) {
                                 //usernameEditText.setError("Username is required!");
-                            }if (TextUtils.isEmpty(firstNameEditText.getText())) {
+                            }if (TextUtils.isEmpty(nameEditText.getText())) {
                                 //firstNameEditText.setError("First name is required!");
-                            } if (TextUtils.isEmpty(lastNameEditText.getText())) {
+                            } if (TextUtils.isEmpty(passwordEditText.getText())) {
                                 //lastNameEditText.setError("Last name is required!");
                             } if (TextUtils.isEmpty(emailEditText.getText())) {
                                 //emailEditText.setError("Email is required!");
@@ -79,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             User user = new User();
                             user.userName = usernameEditText.getText().toString();
-                            user.firstName = firstNameEditText.getText().toString();
-                            user.lastName = lastNameEditText.getText().toString();
+                            user.name = nameEditText.getText().toString();
+                            user.password = passwordEditText.getText().toString();
                             user.email = emailEditText.getText().toString();
                             AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(user);
                             registering = false;
@@ -147,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
                 setUser(null);
                 logged = false;
                 usernameEditText.setText("");
-                firstNameEditText.setText("");
-                lastNameEditText.setText("");
+                nameEditText.setText("");
+                passwordEditText.setText("");
                 emailEditText.setText("");
 
                 usernameTextView.setText("pumper!");
@@ -171,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
         loginTextView.setVisibility(View.GONE);
         registerTextView.setVisibility(View.GONE);
         registerBtn.setVisibility(View.GONE);
-        firstNameEditText.setVisibility(View.GONE);
-        lastNameEditText.setVisibility(View.GONE);
+        nameEditText.setVisibility(View.GONE);
+        passwordEditText.setVisibility(View.GONE);
         emailEditText.setVisibility(View.GONE);
     }
 
@@ -191,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setVisibility(View.GONE);
         workoutBtn.setVisibility(View.GONE);
         settingsBtn.setVisibility(View.GONE);
-        firstNameEditText.setVisibility(View.GONE);
-        lastNameEditText.setVisibility(View.GONE);
+        nameEditText.setVisibility(View.GONE);
+        passwordEditText.setVisibility(View.GONE);
         emailEditText.setVisibility(View.GONE);
     }
 
@@ -200,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(MainActivity.this, "UI: Register", Toast.LENGTH_SHORT).show();
         // Visible
         usernameEditText.setVisibility(View.VISIBLE);
-        firstNameEditText.setVisibility(View.VISIBLE);
-        lastNameEditText.setVisibility(View.VISIBLE);
+        nameEditText.setVisibility(View.VISIBLE);
+        passwordEditText.setVisibility(View.VISIBLE);
         emailEditText.setVisibility(View.VISIBLE);
 
         // Invisible

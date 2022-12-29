@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TreningsAppJava"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".TemplateActivity"
             android:exported="false" />
         <activity
@@ -27,7 +30,7 @@
             android:name=".WorkoutActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
