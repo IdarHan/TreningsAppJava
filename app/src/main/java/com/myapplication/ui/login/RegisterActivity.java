@@ -1,18 +1,15 @@
 package com.myapplication.ui.login;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,40 +28,36 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.myapplication.MainActivity;
-import com.myapplication.MyApplication;
 import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
-import com.myapplication.ui.login.LoginViewModel;
-import com.myapplication.ui.login.LoginViewModelFactory;
 import com.myapplication.databinding.ActivityLoginBinding;
+import com.myapplication.databinding.ActivityRegisterBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private ActivityLoginBinding binding;
+    private ActivityRegisterBinding binding;
     private FirebaseAuth mAuth;
-    private static final String TAG = "EmailPassword";
-    //private FragmentEmailpasswordBinding mBinding;
-    private Button loginButton, registerButton, guestButton, verifyButton;
+    private static final String TAG = "EmailPasswordReg";
+    private Button loginButton, registerButton, guestButton;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        final EditText usernameEditText = binding.username;
         final EditText emailEditText = binding.email;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.LoginButton;
         final Button registerButton = binding.registerButton;
-        final Button guestButton = binding.GuestButton;
-        final Button verifyButton = binding.VerifyButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
         // Initialize Firebase Auth
@@ -77,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     emailEditText.setError(getString(loginFormState.getEmailError()));
                 }
@@ -103,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-               // finish();
+                // finish();
             }
         });
 
@@ -138,28 +131,46 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                loginViewModel.login(email, password);
-                signInWithEmailAndPassword(email, password);
-            }
-        });
-
         registerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(intent);
-        });
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            String email = emailEditText.getText().toString();
 
-        guestButton.setOnClickListener(v ->  {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            //TODO Check if email and username is available
+
+            loginViewModel.login(email, password);
+            createAccount(username, email, password);
+            //sendEmailVerification();
         });
     }
 
+    public void createAccount(String username, String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            User roomUser = new User();
+                            roomUser.email = email;
+                            roomUser.userName = username;
+                            roomUser.password = password;
+                            AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(roomUser);
+                            signInWithEmailAndPassword(roomUser.email, roomUser.password);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
     public void signInWithEmailAndPassword(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -169,22 +180,12 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            assert user != null;
-                            /*if(!mAuth.getCurrentUser().isEmailVerified()) { // TODO email verification???
-
-                                return;
-                            }*/
-
-                            setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
-                            if(getUser() == null) {
-                                Toast.makeText(LoginActivity.this, "404 USER NOT FOUND", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                            System.out.println(user.toString());
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -192,45 +193,50 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void sendEmailVerification() {
+        // Disable button
+        binding.registerButton.setEnabled(false);
+
+        // Send verification email
+        final FirebaseUser user = mAuth.getCurrentUser();
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Re-enable button
+                        binding.registerButton.setEnabled(true);
+                        Toast.makeText(getApplicationContext(),
+                                "task completed " + user.getEmail(),
+                                Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Verification email sent to " + user.getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "sendEmailVerification", task.getException());
+                            Toast.makeText(getApplicationContext(),
+                                    "Failed to send verification email.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private void updateUI(FirebaseUser user) {
         if(user != null) {
-            System.out.println("User logged in: " + getUser());
-            setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
-            getUser().setWorkout_id(-1);
-            AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
-
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            currentUser.reload();
-            updateUI(currentUser);
-        }
-    }
-
     private void updateUiWithUser(LoggedInUserView model) {
-        //String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
-        //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
-    }
-
-    private void setUser(User user) {
-        ((MyApplication) this.getApplication()).setCurrentUser(user);
-    }
-
-    public User getUser() {
-        return ((MyApplication) this.getApplication()).getCurrentUser();
     }
 }

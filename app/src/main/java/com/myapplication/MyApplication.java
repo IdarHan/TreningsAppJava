@@ -5,6 +5,11 @@ import android.app.Application;
 import com.myapplication.data.User;
 
 public class MyApplication extends Application {
+
+    /*
+    How to use: ((MyApplication)
+     */
+
     private User currentUser;
     private boolean logged = false;
 

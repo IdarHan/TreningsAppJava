@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TreningsAppJava</string>
     <string name="workout">Workout</string>
-    <string name="get_fuckin_pumped_boi">Are you ready to pump?</string>
+    <string name="get_fuckin_pumped_boi">Get heckin pumped,</string>
     <string name="username"></string>
     <string name="login">Log in!</string>
     <string name="settings">Settings</string>

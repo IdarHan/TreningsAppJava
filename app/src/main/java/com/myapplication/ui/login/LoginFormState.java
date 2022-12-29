@@ -10,6 +10,8 @@ class LoginFormState {
     private Integer usernameError;
     @Nullable
     private Integer passwordError;
+    @Nullable
+    private Integer emailError;
     private boolean isDataValid;
 
     LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
@@ -28,6 +30,12 @@ class LoginFormState {
     Integer getUsernameError() {
         return usernameError;
     }
+
+    @Nullable
+    Integer getEmailError() {
+        return usernameError;
+    }
+
 
     @Nullable
     Integer getPasswordError() {

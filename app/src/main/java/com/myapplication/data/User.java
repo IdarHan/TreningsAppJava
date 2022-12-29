@@ -15,8 +15,6 @@ public class User{
     public int id;*/
     @PrimaryKey()@NonNull
     public String userName;
-    @ColumnInfo(name = "name")
-    public String name;
     @ColumnInfo(name = "password")
     public String password;
     @ColumnInfo(name = "e-mail")
