@@ -3,10 +3,12 @@ package com.myapplication.ui.login;
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,18 +28,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.myapplication.MainActivity;
 import com.myapplication.MyApplication;
-import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
-import com.myapplication.ui.login.LoginViewModel;
-import com.myapplication.ui.login.LoginViewModelFactory;
+import com.myapplication.data.Workout;
 import com.myapplication.databinding.ActivityLoginBinding;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     //private FragmentEmailpasswordBinding mBinding;
     private Button loginButton, registerButton, guestButton, verifyButton;
+    private Map<String, Object> userMap = new HashMap<>();
+    private FirebaseFirestore db;
 
 
     @Override
@@ -67,9 +79,10 @@ public class LoginActivity extends AppCompatActivity {
         final Button verifyButton = binding.VerifyButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
+        db = FirebaseFirestore.getInstance();
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -171,7 +184,6 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
                             /*if(!mAuth.getCurrentUser().isEmailVerified()) { // TODO email verification???
-
                                 return;
                             }*/
 
@@ -196,8 +208,37 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null) {
             System.out.println("User logged in: " + getUser());
             setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
+            User currentUser  = getUser();
             getUser().setWorkout_id(-1);
             AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
+            List<Workout> workoutList = AppDatabase.getInstance(getApplicationContext()).workoutDao().findByUser(getUser().userName);
+
+            List<Map<String, Object>> wksListMap = new ArrayList<>();
+            for(Workout w : workoutList) {
+                Map<String, Object> workoutMap = new HashMap<>();
+                workoutMap.put("workout_number", w.workoutNumber);
+                workoutMap.put("date", w.time);
+                workoutMap.put("template_name", w.templateName);
+                workoutMap.put("id", w.id);
+                wksListMap.add(workoutMap);
+            }
+
+//            List<Map<String, Object>> a = workoutList.stream()
+//                    .map(w -> {
+//                        Map<String, Object> workoutMap2 = new HashMap<>();
+//                        workoutMap2.put("workout_number", w.workoutNumber);
+//                        workoutMap2.put("date", w.time);
+//                        workoutMap2.put("template_name", w.templateName);
+//                        workoutMap2.put("id", w.id);
+//                        return workoutMap2;
+//                    }).collect(Collectors.toList());
+
+            userMap.put("name", currentUser.userName);
+            userMap.put("email", currentUser.email);
+            userMap.put("password", currentUser.password);
+            userMap.put("workouts", wksListMap);
+
+            uploadstuff();
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -232,5 +273,24 @@ public class LoginActivity extends AppCompatActivity {
 
     public User getUser() {
         return ((MyApplication) this.getApplication()).getCurrentUser();
+    }
+
+    private void uploadstuff() {
+        db.collection("Users")
+                .add(userMap)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(LoginActivity.this, "Success! DB add done", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, "DB add Failure!", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
 }
