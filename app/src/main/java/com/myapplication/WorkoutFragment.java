@@ -19,6 +19,8 @@ import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
 
+import org.w3c.dom.Text;
+
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class WorkoutFragment extends Fragment {
     private Workout workout;
     private User user;
     private Button finishBtn;
+    TextView tv_noExercises;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,9 +79,7 @@ public class WorkoutFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = ((HomeActivity)getActivity()).getUser();
-
-
+        user = MyApplication.getCurrentUser();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -108,7 +109,10 @@ public class WorkoutFragment extends Fragment {
         }
 
         exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(workout.id);
-        if(exercises.isEmpty()) noExTextView.setVisibility(View.VISIBLE);
+        if(exercises.isEmpty())
+            noExTextView.setVisibility(View.VISIBLE);
+        else
+            noExTextView.setVisibility(View.GONE);
 
         myListView = view.findViewById(R.id.myListView);
         names = new String[exercises.size()];

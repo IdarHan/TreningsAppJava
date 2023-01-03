@@ -80,12 +80,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.addBtn:
                 Intent addExIntent = new Intent(view.getContext(), NewExerciseForm.class);
                 startActivity(addExIntent);
+                break;
 
                 //finish();
             case R.id.btn_goToTemplate:
                 Intent templateIntent = new Intent(view.getContext(), TemplateActivity.class);
                 startActivity(templateIntent);
                 System.out.println("Template button pressed supposedly");
+                break;
                 //finish();
         }
 

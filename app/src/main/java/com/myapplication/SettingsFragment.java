@@ -122,40 +122,39 @@ public class SettingsFragment extends Fragment {
             } else {
                 workout = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkout(user.userName);
             }
+            if(incomingIntent != null && incomingIntent.size() > 1) {
+                System.out.println("intent size in settingsFragment is = " + incomingIntent.size());
+                //capture incoming data
+                String name = incomingIntent.getString("name");
+                int weight = incomingIntent.getInt("weight");
+                int sets = incomingIntent.getInt("sets");
+                int reps = incomingIntent.getInt("reps");
+                edit = incomingIntent.getInt("edit");
+
+
+                // create new exercise object
+                Exercise e = new Exercise();
+                e.name = name;
+                e.weight = weight;
+                e.sets = sets;
+                e.reps = reps;
+                e.workout_id = user.wid;
+
+                // add exercise to the list and update adapter
+                if (incomingIntent.size() > 5) {
+                    e.id = edit;
+                    AppDatabase.getInstance(getContext()).exerciseDao().update(e);
+                } else if (!addExercise(e))
+                    Toast.makeText(getActivity(), "Input Error!", Toast.LENGTH_SHORT).show();
+
+                // refresh the displayed exercises list
+                exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
+                adapter = new ExerciseAdapter(getActivity(), exercises);
+                lv_exercises.setAdapter(adapter);
+            }
         }else {
             System.out.println("user = " + user + "             ||            MyApplication.getCurrentUser() = " + MyApplication.getCurrentUser());
             Toast.makeText(getActivity(), "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
-        }
-
-        if(incomingIntent.size() > 1) {
-            System.out.println("intent size in settingsFragment is = " + incomingIntent.size());
-            //capture incoming data
-            String name = incomingIntent.getString("name");
-            int weight = incomingIntent.getInt("weight");
-            int sets = incomingIntent.getInt("sets");
-            int reps = incomingIntent.getInt("reps");
-            edit = incomingIntent.getInt("edit");
-
-
-            // create new exercise object
-            Exercise e = new Exercise();
-            e.name = name;
-            e.weight = weight;
-            e.sets = sets;
-            e.reps = reps;
-            e.workout_id = user.wid;
-
-            // add exercise to the list and update adapter
-            if (incomingIntent.size() > 5) {
-                e.id = edit;
-                AppDatabase.getInstance(getContext()).exerciseDao().update(e);
-            } else if (!addExercise(e))
-                Toast.makeText(getActivity(), "Input Error!", Toast.LENGTH_SHORT).show();
-
-            // refresh the displayed exercises list
-            exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
-            adapter = new ExerciseAdapter(getActivity(), exercises);
-            lv_exercises.setAdapter(adapter);
         }
 
         return view;
