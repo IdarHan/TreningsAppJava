@@ -3,28 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_menu_camera.xml" value="0.3335" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.3335" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.3335" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_home.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_new_exercise_form.xml" value="0.2321504916631039" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_settings.xml" value="0.33" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_template.xml" value="0.23376623376623376" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_workout.xml" value="0.1" />
+        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_workout.xml" value="0.22" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/add_exercise_form.xml" value="0.25" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/content_home.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/exercise_one_line.xml" value="0.5084745762711864" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_home.xml" value="0.3009833262077811" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_workout.xml" value="0.22" />
+        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_workout.xml" value="0.19452757588713127" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_dropdown_item.xml" value="0.1611799914493373" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_listview_detail.xml" value="0.5" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_listview_detail2.xml" value="0.5" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_selected_item.xml" value="0.1611799914493373" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout-w936dp/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout/activity_email_and_password_acitivty.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/idar-/AndroidStudioProjects/TreningsAppJava/app/src/main/res/layout/activity_register.xml" value="0.21770833333333334" />
       </map>
     </option>
   </component>
