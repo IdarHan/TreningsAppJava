@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
         Bundle incomingIntent = getIntent().getExtras();
-        if(!incomingIntent.isEmpty()) {
+        if(incomingIntent != null && !incomingIntent.isEmpty()) {
             String name = incomingIntent.getString("username");
             user = AppDatabase.getInstance(getApplicationContext()).userDao().findByUsername(name);
         }

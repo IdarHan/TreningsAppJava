@@ -78,7 +78,7 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = ((HomeActivity)getActivity()).getUser();
+        user = MyApplication.getCurrentUser();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -122,10 +122,12 @@ public class SettingsFragment extends Fragment {
             } else {
                 workout = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkout(user.userName);
             }
-        }else
+        }else {
+            System.out.println("user = " + user + "             ||            MyApplication.getCurrentUser() = " + MyApplication.getCurrentUser());
             Toast.makeText(getActivity(), "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
 
-        if(incomingIntent != null && incomingIntent.size() > 1) {
+        if(incomingIntent.size() > 1) {
             System.out.println("intent size in settingsFragment is = " + incomingIntent.size());
             //capture incoming data
             String name = incomingIntent.getString("name");
