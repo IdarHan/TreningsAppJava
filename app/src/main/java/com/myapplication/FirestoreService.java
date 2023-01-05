@@ -1,6 +1,8 @@
 package com.myapplication;
 
+import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
+import com.myapplication.data.Workout;
 
 import java.util.ArrayList;
 import java.util.List;
