@@ -32,6 +32,9 @@ public interface UserDao {
     @Delete
     void delete(User user);
 
+    @Query("SELECT * FROM user_table WHERE `e-mail` LIKE :email LIMIT 1")
+    User findByEmail(String email);
+
     @Query("DELETE FROM user_table")
     void nukeTable();
 }

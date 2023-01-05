@@ -15,16 +15,14 @@ public class User{
     public int id;*/
     @PrimaryKey()@NonNull
     public String userName;
-    @ColumnInfo(name = "first_name")
-    public String firstName;
-    @ColumnInfo(name = "last_name")
-    public String lastName;
+    @ColumnInfo(name = "password")
+    public String password;
     @ColumnInfo(name = "e-mail")
     public String email;
     @ColumnInfo(name = "workout_id")
     public int wid;
 
-    // TODO CHECK IF ALREADY REGISTERED
+    // DO NOT DELETE
     public User() {
     }
 

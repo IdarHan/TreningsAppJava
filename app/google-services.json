@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "542316489016",
+    "project_id": "treningsappjava",
+    "storage_bucket": "treningsappjava.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542316489016:android:e97df045e218826a1b79cd",
+        "android_client_info": {
+          "package_name": "com.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542316489016-8g5bct8ikhnbbgqv4lsknedmm3068tgv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeV4_GTYWbU1pp8RbalhZycxV8Q9_ZxjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542316489016-8g5bct8ikhnbbgqv4lsknedmm3068tgv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

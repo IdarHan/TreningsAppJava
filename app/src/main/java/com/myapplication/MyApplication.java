@@ -5,8 +5,8 @@ import android.app.Application;
 import com.myapplication.data.User;
 
 public class MyApplication extends Application {
-    private static User currentUser;
-    private static boolean logged = false;
+    private User currentUser;
+    private boolean logged = false;
 
     /*
     How to use:
