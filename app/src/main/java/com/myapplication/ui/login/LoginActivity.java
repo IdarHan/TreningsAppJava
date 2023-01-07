@@ -3,12 +3,10 @@ package com.myapplication.ui.login;
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -37,7 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.myapplication.MainActivity;
+import com.myapplication.HomeActivity;
 import com.myapplication.MyApplication;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
@@ -48,8 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -170,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         guestButton.setOnClickListener(v ->  {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
         });
     }
@@ -189,11 +185,11 @@ public class LoginActivity extends AppCompatActivity {
                                 return;
                             }*/
 
-                            setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
+                            /*setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
                             if(getUser() == null) {
                                 Toast.makeText(LoginActivity.this, "404 USER NOT FOUND", Toast.LENGTH_SHORT).show();
                                 return;
-                            }
+                            }*/
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -211,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println("User logged in: " + getUser());
             setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
             User currentUser  = getUser();
-            if(currentUser.userName.equals("")) {
+            if(currentUser != null) {
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName("").build();
                 user.updateProfile(profileUpdates)
@@ -224,44 +220,16 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                User roomUser = new User();
+                /*User roomUser = new User();
                 roomUser.userName = "Idar";
                 roomUser.email = user.getEmail();
                 roomUser.password = "password";
-                AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(roomUser);
+                AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(roomUser);*/
             }
-            currentUser.setWorkout_id(-1);
-            AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
-            List<Workout> workoutList = AppDatabase.getInstance(getApplicationContext()).workoutDao().findByUser(getUser().userName);
+            //currentUser.setWorkout_id(-1);
 
-            List<Map<String, Object>> wksListMap = new ArrayList<>();
-            for(Workout w : workoutList) {
-                Map<String, Object> workoutMap = new HashMap<>();
-                workoutMap.put("workout_number", w.workoutNumber);
-                workoutMap.put("date", w.time);
-                workoutMap.put("template_name", w.templateName);
-                workoutMap.put("id", w.id);
-                wksListMap.add(workoutMap);
-            }
 
-//            List<Map<String, Object>> a = workoutList.stream()
-//                    .map(w -> {
-//                        Map<String, Object> workoutMap2 = new HashMap<>();
-//                        workoutMap2.put("workout_number", w.workoutNumber);
-//                        workoutMap2.put("date", w.time);
-//                        workoutMap2.put("template_name", w.templateName);
-//                        workoutMap2.put("id", w.id);
-//                        return workoutMap2;
-//                    }).collect(Collectors.toList());
-
-            userMap.put("name", currentUser.userName);
-            userMap.put("email", currentUser.email);
-            userMap.put("password", currentUser.password);
-            userMap.put("workouts", wksListMap);
-
-            uploadstuff();
-
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();
         }

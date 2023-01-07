@@ -26,5 +26,20 @@
     <string name="yes">Yesolol</string>
     <string name="no">Noolol</string>
     <string name="new_template_name">Save workout as template?</string>
+    <string name="prompt_email">Email ples</string>
+    <string name="prompt_password">pw ples</string>
+    <string name="action_sign_in_short">signin?</string>
+    <string name="action_sign_in">long sign in?</string>
+    <string name="login_failed">Noolol</string>
+    <string name="invalid_username">Noolol</string>
+    <string name="invalid_password">Noolol</string>
+    <string name="test1">Noolol</string>
+    <string name="test2">Noolol</string>
+    <string name="test3">Noolol</string>
+    <string name="test4">Noolol</string>
+    <string name="test5">Noolol</string>
+
+
+
 
 </resources>

@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.User;
 import com.myapplication.databinding.ActivityHomeBinding;
 import com.myapplication.settings.NewExerciseForm;
 import com.myapplication.settings.TemplateActivity;
+import com.myapplication.ui.login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch(view.getId()) {
             case R.id.btn_logout:
                 Intent logoutIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
                 startActivity(logoutIntent);
                 finish();
                 break;
