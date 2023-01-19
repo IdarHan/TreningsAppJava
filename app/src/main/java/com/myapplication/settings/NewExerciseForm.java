@@ -89,15 +89,25 @@ public class NewExerciseForm extends AppCompatActivity {
                     int newSets = Integer.parseInt(et_sets.getText().toString());
                     int newReps = Integer.parseInt(et_reps.getText().toString());
 
+                    Exercise e = new Exercise();
+                    e.name = newExName;
+                    e.weight = newWeight;
+                    e.sets = newSets;
+                    e.reps = newReps;
+                    e.workout_id = MyApplication.getCurrentUser().wid;
+                    if(edit == -1) {
+                        AppDatabase.getInstance(getApplicationContext()).exerciseDao().insert(e);
+                        Toast.makeText(getApplicationContext(), "Exercise Added!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        e.id = edit;
+                        AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
+                        Toast.makeText(getApplicationContext(), "Exercise Updated!", Toast.LENGTH_SHORT).show();
+
+                    }
+
                     //put the strings into a message for SettingActivity
                     Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                    intent.putExtra("name", newExName);
-                    intent.putExtra("weight", newWeight);
-                    intent.putExtra("sets", newSets);
-                    intent.putExtra("reps", newReps);
-                    if (edit != -1) intent.putExtra("edit", edit);
-
-                    //start SettingActivity again
+                    intent.putExtra("ToSettings", true);
                     startActivity(intent);
                     finish();
                 }
@@ -117,6 +127,7 @@ public class NewExerciseForm extends AppCompatActivity {
                                 // on below line we are displaying a toast message.
                                 Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                                intent.putExtra("ToSettings", true);
 
                                 // delete the exercise
                                 Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
@@ -156,6 +167,7 @@ public class NewExerciseForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                intent.putExtra("ToSettings", true);
                 startActivity(intent);
                 finish();
             }
@@ -184,6 +196,6 @@ public class NewExerciseForm extends AppCompatActivity {
     }
 
     public User getUser() {
-        return ((MyApplication) this.getApplication()).getCurrentUser();
+        return MyApplication.getCurrentUser();
     }
 }

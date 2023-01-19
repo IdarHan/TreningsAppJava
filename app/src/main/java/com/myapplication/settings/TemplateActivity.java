@@ -22,6 +22,7 @@ import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
 
+import java.lang.reflect.Executable;
 import java.util.List;
 
 public class TemplateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -46,14 +47,17 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
         tv_saveTemplate = findViewById(R.id.tv_new_template_name);
 
         spin_template.setOnItemSelectedListener(this);
+        //btn_applyTemplate.clearAnimation();
+        //btn_applyTemplate.setVisibility(View.INVISIBLE);
 
         // Spinner Drop down elements
-        templateList = (AppDatabase.getInstance(getApplicationContext()).workoutDao().findTempsByUser(getUser().userName));
-        templateList.add(0, ""); // Adding a default template that will delete all exercises in workout if applied
-
+        templateList = (AppDatabase.getInstance(getApplicationContext()).workoutDao().findTempsByUser(getUser().email));
+        if(templateList.isEmpty())
+            templateList.add(0, "Blank"); // Adding a default template that will delete all exercises in workout if applied
+        else
+            templateList.remove("Blank");
         for(String s : templateList) {
             if(s == null) {
-                System.out.println("Null object! " + s);
                 templateList.remove(s);
             }
         }
@@ -66,6 +70,15 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
         // attaching data adapter to spinner
         spin_template.setAdapter(dataAdapter);
 
+        //Hiding Template-saving boxes if no exercises
+        List<Exercise> exList = AppDatabase.getInstance(getApplicationContext()).exerciseDao().
+                getCurrentExercises(getUser().wid);
+        if(exList.isEmpty()) {
+            tv_saveTemplate.setVisibility(View.INVISIBLE);
+            et_templateName.setVisibility(View.INVISIBLE);
+            btn_saveTemplate.setVisibility(View.INVISIBLE);
+        }
+
         btn_applyTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,16 +87,17 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
 
                 // Adds all the exercises of the previous workout with matching template to this workout
                 String template = spin_template.getSelectedItem().toString();
-                System.out.println("gather exs on username = " + getUser().userName + ", and template = " + template);
+                System.out.println("gather exs on email = " + getUser().email + ", and template = " + template);
                 copyExercisesOntoWorkout(AppDatabase.getInstance(getApplicationContext()).workoutDao().
-                        findPrevExsByUserAndTemp(getUser().userName, template));
+                        findPrevExsByUserAndTemp(getUser().email, template));
                 // set workout's template name = template
-                Workout workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(getUser().userName);
+                Workout workout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getNewestUserWorkout(getUser().email);
                 workout.templateName = template;
                 // update workout in db
                 AppDatabase.getInstance(getApplicationContext()).workoutDao().updateWorkout(workout);
 
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("ToSettings", true);
                 startActivity(intent);
                 finish();
             }
@@ -92,7 +106,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
         btn_saveTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Workout currentWorkout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getPrevUserWorkout(getUser().userName);
+                Workout currentWorkout = AppDatabase.getInstance(getApplicationContext()).workoutDao().getNewestUserWorkout(getUser().email);
                 if(TextUtils.isEmpty(et_templateName.getText())) {
                     et_templateName.setError("Template name is required!");
                     Toast.makeText(TemplateActivity.this, "Missing template name!",  Toast.LENGTH_SHORT).show();
@@ -100,7 +114,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
                     currentWorkout.templateName = et_templateName.getText().toString();
                     AppDatabase.getInstance(getApplicationContext()).workoutDao().updateWorkout(currentWorkout);
                     Toast.makeText(TemplateActivity.this, "Saved template as '" + currentWorkout.templateName + "'!",  Toast.LENGTH_SHORT).show();
-                    templateList = (AppDatabase.getInstance(getApplicationContext()).workoutDao().findTempsByUser(getUser().userName));
+                    templateList = (AppDatabase.getInstance(getApplicationContext()).workoutDao().findTempsByUser(getUser().email));
                     dataAdapter = new ArrayAdapter<String>(TemplateActivity.this, android.R.layout.simple_spinner_item, templateList);
                     spin_template.setAdapter(dataAdapter);
                 }
@@ -111,6 +125,7 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("ToSettings", true);
                 startActivity(intent);
                 finish();
             }
@@ -119,13 +134,14 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public User getUser() {
-        return ((MyApplication) this.getApplication()).getCurrentUser();
+        return MyApplication.getCurrentUser();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         // On selecting a spinner item
         String item = adapterView.getItemAtPosition(position).toString();
+        btn_applyTemplate.setVisibility(View.VISIBLE);
 
         // Showing selected spinner item
         //Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
@@ -135,11 +151,12 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Do I need to do anything here?
         String item = adapterView.getItemAtPosition(0).toString();
+        //btn_applyTemplate.setVisibility(View.GONE);
     }
 
     private void copyExercisesOntoWorkout(List<Exercise> list) {
         if(list.isEmpty())
-            Toast.makeText(TemplateActivity.this, "ERROR, template has no exs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TemplateActivity.this, "ERROR, template has no exs. Try again!", Toast.LENGTH_SHORT).show();
         else {
             Exercise[] exArr = new Exercise[list.size()];
             int index = 0;

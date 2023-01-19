@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#3C3D3D"
     tools:context=".ui.login.LoginActivity">
 
     <EditText
@@ -19,6 +20,9 @@
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
+        android:textColor="#FAD988"
+        android:textStyle="bold"
+        android:textColorHint="#B4B4B4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +37,9 @@
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        android:textColor="#FAD988"
+        android:textStyle="bold"
+        android:textColorHint="#B4B4B4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -58,7 +65,8 @@
         android:layout_height="66dp"
         android:layout_gravity="center"
         android:layout_marginTop="42dp"
-        android:visibility="gone"
+        android:visibility="invisible"
+        android:color="#FAD988"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

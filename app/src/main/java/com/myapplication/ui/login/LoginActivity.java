@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -204,7 +205,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if(user != null) {
-            System.out.println("User logged in: " + getUser());
+            Toast.makeText(LoginActivity.this, user.getEmail() + " logged in!",
+                    Toast.LENGTH_SHORT).show();
             setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
             User currentUser  = getUser();
             if(currentUser != null) {
@@ -219,14 +221,16 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-                /*User roomUser = new User();
+            } else {
+                User roomUser = new User();
                 roomUser.userName = "Idar";
-                roomUser.email = user.getEmail();
+                roomUser.email = Objects.requireNonNull(user.getEmail());
                 roomUser.password = "password";
-                AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(roomUser);*/
+                roomUser.wid = -1;
+                AppDatabase.getInstance(getApplicationContext()).userDao().insert(roomUser);
+                MyApplication.setCurrentUser(roomUser);
             }
-            //currentUser.setWorkout_id(-1);
+
 
 
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -257,11 +261,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setUser(User user) {
-        ((MyApplication) this.getApplication()).setCurrentUser(user);
+        MyApplication.setCurrentUser(user);
     }
 
     public User getUser() {
-        return ((MyApplication) this.getApplication()).getCurrentUser();
+        return MyApplication.getCurrentUser();
     }
 
     private void uploadstuff() {

@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.fragments;
 
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -14,12 +14,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.myapplication.MyApplication;
+import com.myapplication.R;
+import com.myapplication.adapters.WorkoutAdapter;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
 import com.myapplication.data.Workout;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -95,20 +96,20 @@ public class WorkoutFragment extends Fragment {
         //noExTextView.setVisibility(View.GONE);
 
 
-        if(user.getWorkout_id() == -1){
+        /*if(MyApplication.getCurrentUser().wid == -1){
             System.out.println("--------------- Making new workout ---------------");
             workout = new Workout();
-            workout.workoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
-            workout.username = user.userName;
+            workout.workoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkoutNum(user.email) + 1;
+            workout.user_email = user.email;
             workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
-            user.setWorkout_id(AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkout(user.userName).id + 1);
+            user.setWorkout_id(AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.email).id + 1);
             AppDatabase.getInstance(getContext()).workoutDao().insertAll(workout);
         }else {
             System.out.println("--------------- Using old workout ---------------");
-            workout = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkout(user.userName);
-        }
+            workout = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.email);
+        }*/
 
-        exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(workout.id);
+        exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(MyApplication.getCurrentUser().wid);
         if(exercises.isEmpty())
             noExTextView.setVisibility(View.VISIBLE);
         else

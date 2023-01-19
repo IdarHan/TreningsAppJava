@@ -1,14 +1,20 @@
-package com.myapplication;
+package com.myapplication.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.myapplication.MyApplication;
+import com.myapplication.R;
+import com.myapplication.data.AppDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +23,9 @@ import android.widget.Button;
  */
 public class HomeFragment extends Fragment {
 
-    private Button logoutBtn;
+    private Button logoutBtn, nextSeshBtn, lastSeshBtn, newSeshBtn;
+    private TextView welcomeTV, seshTrackerTV;
+    private FloatingActionButton nukeBtn;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,9 +72,31 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        welcomeTV = (TextView) view.findViewById(R.id.tv_welcome_title);
+        welcomeTV.setText(getString(R.string.welcome_message, MyApplication.getCurrentUser().userName));
+
+        seshTrackerTV = (TextView) view.findViewById(R.id.tv_seshTracker);
+        seshTrackerTV.setText(getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
+                Integer.toString(MyApplication.getTotalSeshCount()), Integer.toString(MyApplication.getCurrentUser().wid)));
+        if(MyApplication.getSeshNr() != 0)
+            seshTrackerTV.setVisibility(View.VISIBLE);
+
+
         logoutBtn = (Button) view.findViewById(R.id.btn_logout);
         logoutBtn.setOnClickListener((View.OnClickListener) getActivity());
+
+        nextSeshBtn = (Button) view.findViewById(R.id.btn_nextWorkout);
+        nextSeshBtn.setOnClickListener((View.OnClickListener) getActivity());
+
+        lastSeshBtn = view.findViewById(R.id.btn_prevSesh);
+        lastSeshBtn.setOnClickListener((View.OnClickListener) getActivity());
+
+        newSeshBtn = view.findViewById(R.id.btn_newSesh);
+        newSeshBtn.setOnClickListener((View.OnClickListener) getActivity());
+
+        nukeBtn = view.findViewById(R.id.btn_nuke);
+        nukeBtn.setOnClickListener((View.OnClickListener) getActivity());
+
         return view;
     }
-
 }

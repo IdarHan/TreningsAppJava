@@ -14,11 +14,11 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     List<User> getAll();
 
-    @Query("SELECT * FROM user_table WHERE userName IN (:usernames)")
-    List<User> loadAllByUsername(String[] usernames);
+    @Query("SELECT * FROM user_table WHERE email IN (:emails)")
+    List<User> loadAllByEmail(String[] emails);
 
-    @Query("SELECT * FROM user_table WHERE userName LIKE :username LIMIT 1")
-    User findByUsername(String username);
+    @Query("SELECT * FROM user_table WHERE email LIKE :email LIMIT 1")
+    User findByEmail(String email);
 
     @Insert
     void insertAll(User... users);
@@ -31,9 +31,6 @@ public interface UserDao {
 
     @Delete
     void delete(User user);
-
-    @Query("SELECT * FROM user_table WHERE `e-mail` LIKE :email LIMIT 1")
-    User findByEmail(String email);
 
     @Query("DELETE FROM user_table")
     void nukeTable();

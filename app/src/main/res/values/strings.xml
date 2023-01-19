@@ -33,7 +33,8 @@
     <string name="login_failed">Noolol</string>
     <string name="invalid_username">Noolol</string>
     <string name="invalid_password">Noolol</string>
-    <string name="test1">Noolol</string>
+    <string name="welcome_message">Get heckin pumped,\n%1$s!</string>
+    <string name="sesh_tracker">Current sesh: %1$s/%2$s, id: %3$s</string>
     <string name="test2">Noolol</string>
     <string name="test3">Noolol</string>
     <string name="test4">Noolol</string>

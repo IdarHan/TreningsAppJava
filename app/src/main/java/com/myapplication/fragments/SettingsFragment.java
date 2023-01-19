@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.fragments;
 
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.myapplication.adapters.ExerciseAdapter;
+import com.myapplication.MyApplication;
+import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
@@ -33,7 +36,7 @@ import java.util.List;
 public class SettingsFragment extends Fragment {
 
     private Workout workout = null;
-    private Button saveBtn2, addBtn, btn_template;
+    private Button addBtn, btn_template;
     private ExerciseAdapter adapter;
     private List<Exercise> exercises;
     private ListView lv_exercises;
@@ -78,7 +81,6 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = MyApplication.getCurrentUser();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -86,8 +88,8 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getContext().getTheme().applyStyle(R.style.ListFont, true);
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-
 
         addBtn = view.findViewById(R.id.addBtn);
         btn_template = view.findViewById(R.id.btn_goToTemplate);
@@ -105,6 +107,7 @@ public class SettingsFragment extends Fragment {
 
         //listen for incoming messages
         Bundle incomingIntent = getActivity().getIntent().getExtras();
+        user = MyApplication.getCurrentUser();
 
         if(user != null) {
             exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
@@ -112,25 +115,23 @@ public class SettingsFragment extends Fragment {
             lv_exercises.setAdapter(adapter);
             if (user.wid == -1) {
                 workout = new Workout();
-                int newWorkoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkoutNum(user.userName) + 1;
-                workout.workoutNumber = newWorkoutNumber;
-                workout.username = user.userName;
+                workout.workoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkoutNum(user.email) + 1;
+                workout.user_email = user.email;
                 workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
-                user.wid = AppDatabase.getInstance(getContext()).workoutDao().getPrevWorkoutId() + 1;
+                user.wid = AppDatabase.getInstance(getContext()).workoutDao().getNewestWorkoutId() + 1;
                 AppDatabase.getInstance(getContext()).userDao().updateUser(user);
                 AppDatabase.getInstance(getContext()).workoutDao().insertAll(workout);
             } else {
-                workout = AppDatabase.getInstance(getContext()).workoutDao().getPrevUserWorkout(user.userName);
+                workout = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.userName);
             }
-            if(incomingIntent != null && incomingIntent.size() > 1) {
-                System.out.println("intent size in settingsFragment is = " + incomingIntent.size());
+            //this part is moved to .settings.NewExerciseForm
+            /*if(incomingIntent != null && incomingIntent.size() > 1) {
                 //capture incoming data
                 String name = incomingIntent.getString("name");
                 int weight = incomingIntent.getInt("weight");
                 int sets = incomingIntent.getInt("sets");
                 int reps = incomingIntent.getInt("reps");
                 edit = incomingIntent.getInt("edit");
-
 
                 // create new exercise object
                 Exercise e = new Exercise();
@@ -141,19 +142,29 @@ public class SettingsFragment extends Fragment {
                 e.workout_id = user.wid;
 
                 // add exercise to the list and update adapter
-                if (incomingIntent.size() > 5) {
+                if (incomingIntent.containsKey("edit")) {
                     e.id = edit;
                     AppDatabase.getInstance(getContext()).exerciseDao().update(e);
-                } else if (!addExercise(e))
-                    Toast.makeText(getActivity(), "Input Error!", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (addExercise(e))
+                        Toast.makeText(getActivity(), "Exercise Added!", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getActivity(), "Input Error!", Toast.LENGTH_SHORT).show();
+                }
 
-                // refresh the displayed exercises list
-                exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
-                adapter = new ExerciseAdapter(getActivity(), exercises);
-                lv_exercises.setAdapter(adapter);
-            }
+                //Clearing intent
+                incomingIntent.remove("name");
+                incomingIntent.remove("weight");
+                incomingIntent.remove("sets");
+                incomingIntent.remove("reps");
+                incomingIntent.remove("edit");
+
+            }*/
+            // refresh the displayed exercises list
+            exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
+            adapter = new ExerciseAdapter(getActivity(), exercises);
+            lv_exercises.setAdapter(adapter);
         }else {
-            System.out.println("user = " + user + "             ||            MyApplication.getCurrentUser() = " + MyApplication.getCurrentUser());
             Toast.makeText(getActivity(), "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
         }
 
@@ -168,15 +179,15 @@ public class SettingsFragment extends Fragment {
 
         intent.putExtra("id", e.id);
         startActivity(intent);
-        //finish();
     }
 
     private boolean addExercise(Exercise exercise) {
         if(exercise != null) {
+            User tempUser = MyApplication.getCurrentUser();
             if(!exercise.name.isEmpty()) {
-                System.out.println("Adding exercise to database! " + exercise.workout_id);
-                AppDatabase.getInstance(getContext()).exerciseDao().insertAll(exercise);
+                AppDatabase.getInstance(getActivity()).exerciseDao().insert(exercise);
             }
+            MyApplication.setCurrentUser(tempUser);
             return true;
         }
         else return false;

@@ -17,6 +17,7 @@
         android:layout_toEndOf="@+id/seekBar"
         android:gravity="center_horizontal"
         android:text="@string/_0"
+        android:textColor="#FAD988"
         android:textSize="20sp" />
 
     <TextView
@@ -30,6 +31,7 @@
         android:layout_marginBottom="0dp"
         android:gravity="center_horizontal"
         android:text="@string/name"
+        android:textColor="#FAD988"
         android:textSize="20sp" />
 
     <TextView
@@ -45,6 +47,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
         android:text="@string/sets"
+        android:textColor="#FAD988"
         android:textSize="16sp" />
 
     <SeekBar
@@ -73,6 +76,7 @@
         android:inputType="number"
         android:minHeight="48dp"
         android:gravity="center_horizontal"
+        android:textColor="#FAD988"
         android:text="@string/_000" />
 
     <TextView
@@ -85,6 +89,7 @@
         android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/weightEditText"
         android:text="@string/kg"
+        android:textColor="#FAD988"
         android:textSize="18sp" />
 
 </RelativeLayout>

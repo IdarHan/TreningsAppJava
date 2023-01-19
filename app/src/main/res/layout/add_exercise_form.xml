@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#3C3D3D">
 
     <EditText
         android:id="@+id/et_ex_name"
@@ -11,7 +12,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="exercise name"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:textColorHint="#AFAFAF"
+        android:textColor="#FAD988"
+        />
 
     <EditText
         android:id="@+id/et_weight"
@@ -21,6 +25,8 @@
         android:gravity="center_horizontal"
         android:hint="weight"
         android:inputType="number"
+        android:textColor="#FAD988"
+        android:textColorHint="#AFAFAF"
         android:minHeight="48dp" />
 
     <EditText
@@ -31,6 +37,8 @@
         android:gravity="center_horizontal"
         android:hint="Amount of sets"
         android:inputType="number"
+        android:textColor="#FAD988"
+        android:textColorHint="#AFAFAF"
         android:minHeight="48dp" />
 
     <EditText
@@ -41,5 +49,7 @@
         android:gravity="center_horizontal"
         android:hint="amount of repetitions"
         android:inputType="number"
+        android:textColor="#FAD988"
+        android:textColorHint="#AFAFAF"
         android:minHeight="48dp" />
 </LinearLayout>

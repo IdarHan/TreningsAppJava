@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.myapplication.R;
 import com.myapplication.data.Exercise;
 
 import java.lang.reflect.Array;

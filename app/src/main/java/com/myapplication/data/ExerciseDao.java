@@ -26,8 +26,14 @@ public interface ExerciseDao {
     @Insert
     void insertAll(Exercise... exercises);
 
+    @Insert
+    void insert(Exercise e);
+
     @Delete
     void delete(Exercise exercise);
+
+    @Query("SELECT * FROM EXERCISE_TABLE WHERE workout_id LIKE :wid")
+    List<Exercise> getCurrentExercises(int wid);
 
     @Query("DELETE FROM exercise_table WHERE (workout_id LIKE :workout_id)")
     void deleteExercisesByWid(int workout_id);

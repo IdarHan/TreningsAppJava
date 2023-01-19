@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.myapplication.R;
 
 public class WorkoutAdapter extends BaseAdapter {
 

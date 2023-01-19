@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
+
+import com.myapplication.R;
 
 public class YesNoDialogFragment extends DialogFragment { //TODO NOT IN USE - USE MULTIPLE PLACES?
     @Override

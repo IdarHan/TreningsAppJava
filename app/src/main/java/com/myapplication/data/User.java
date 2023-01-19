@@ -14,11 +14,11 @@ public class User{
     /*@PrimaryKey(autoGenerate = true)
     public int id;*/
     @PrimaryKey()@NonNull
-    public String userName;
+    public String email;
     @ColumnInfo(name = "password")
     public String password;
-    @ColumnInfo(name = "e-mail")
-    public String email;
+    @ColumnInfo(name = "user_name")
+    public String userName;
     @ColumnInfo(name = "workout_id")
     public int wid;
 
@@ -29,7 +29,7 @@ public class User{
     public static boolean usernameAvailable(String username, Context context) {
         User user = AppDatabase.getInstance(context)
                 .userDao()
-                .findByUsername(username);
+                .findByEmail(username);
         if(user == null) return true;
         else
             return false;

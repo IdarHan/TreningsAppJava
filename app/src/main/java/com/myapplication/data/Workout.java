@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Date;
 
-@Entity(indices = {@Index("user_name"), @Index("id")}, tableName = "workout_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "userName", childColumns = "user_name"))
+@Entity(indices = {@Index("user_email"), @Index("id")}, tableName = "workout_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "email", childColumns = "user_email"))
 public class Workout {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    @ColumnInfo(name = "user_name")
-    public String username;
+    @ColumnInfo(name = "user_email")
+    public String user_email;
     @ColumnInfo(name = "workout_number")
     public int workoutNumber;
     @ColumnInfo(name = "date")
