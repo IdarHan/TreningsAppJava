@@ -8,12 +8,14 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.myapplication.HomeActivity;
 import com.myapplication.MyApplication;
 import com.myapplication.R;
 import com.myapplication.adapters.WorkoutAdapter;
@@ -41,6 +43,8 @@ public class WorkoutFragment extends Fragment {
     private User user;
     private Button finishBtn;
     TextView tv_noExercises;
+    float x1, x2, y1, y2;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -132,6 +136,29 @@ public class WorkoutFragment extends Fragment {
 
         WorkoutAdapter workoutAdapter = new WorkoutAdapter(getContext(), names, weights, sets, reps);
         myListView.setAdapter(workoutAdapter);
+
+        // swipe function
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                //if(event.getAction() == MotionEvent.ACTION_MOVE){
+                System.out.println("-------------- MotionEvent.getAction() = " + event.getAction() + " ---------------, should be: " + MotionEvent.ACTION_DOWN + ", or: " + MotionEvent.ACTION_UP);
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        if(x1 < x2) { // swipe right
+                            ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
+                            ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
+                        }
+                        break;
+                }
+                // }
+                return true;
+            }
+        });
+
 
         return view;
     }

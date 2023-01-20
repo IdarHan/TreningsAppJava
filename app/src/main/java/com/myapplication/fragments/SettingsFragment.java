@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.myapplication.HomeActivity;
 import com.myapplication.adapters.ExerciseAdapter;
 import com.myapplication.MyApplication;
 import com.myapplication.R;
@@ -42,6 +44,7 @@ public class SettingsFragment extends Fragment {
     private ListView lv_exercises;
     private int edit = -1;
     private User user;
+    float x1, x2, y1, y2;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -124,42 +127,6 @@ public class SettingsFragment extends Fragment {
             } else {
                 workout = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.userName);
             }
-            //this part is moved to .settings.NewExerciseForm
-            /*if(incomingIntent != null && incomingIntent.size() > 1) {
-                //capture incoming data
-                String name = incomingIntent.getString("name");
-                int weight = incomingIntent.getInt("weight");
-                int sets = incomingIntent.getInt("sets");
-                int reps = incomingIntent.getInt("reps");
-                edit = incomingIntent.getInt("edit");
-
-                // create new exercise object
-                Exercise e = new Exercise();
-                e.name = name;
-                e.weight = weight;
-                e.sets = sets;
-                e.reps = reps;
-                e.workout_id = user.wid;
-
-                // add exercise to the list and update adapter
-                if (incomingIntent.containsKey("edit")) {
-                    e.id = edit;
-                    AppDatabase.getInstance(getContext()).exerciseDao().update(e);
-                }else {
-                    if (addExercise(e))
-                        Toast.makeText(getActivity(), "Exercise Added!", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(getActivity(), "Input Error!", Toast.LENGTH_SHORT).show();
-                }
-
-                //Clearing intent
-                incomingIntent.remove("name");
-                incomingIntent.remove("weight");
-                incomingIntent.remove("sets");
-                incomingIntent.remove("reps");
-                incomingIntent.remove("edit");
-
-            }*/
             // refresh the displayed exercises list
             exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
             adapter = new ExerciseAdapter(getActivity(), exercises);
@@ -167,6 +134,31 @@ public class SettingsFragment extends Fragment {
         }else {
             Toast.makeText(getActivity(), "404: USER NOT FOUND", Toast.LENGTH_SHORT).show();
         }
+
+        // swipe function
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                //if(event.getAction() == MotionEvent.ACTION_MOVE){
+                System.out.println("-------------- MotionEvent.getAction() = " + event.getAction() + " ---------------, should be: " + MotionEvent.ACTION_DOWN + ", or: " + MotionEvent.ACTION_UP);
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        if (x1 > x2) { // swipe right
+                            ((HomeActivity) requireActivity()).replaceFragment(new WorkoutFragment(), "workout");
+                            ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Workout);
+                        }else if(x1 > x2) { // swipe left
+                            ((HomeActivity) requireActivity()).replaceFragment(new HomeFragment(), "home");
+                            ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Home);
+                        }
+                        break;
+                }
+                // }
+                return true;
+            }
+        });
 
         return view;
     }
