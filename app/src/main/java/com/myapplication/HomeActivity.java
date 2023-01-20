@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.myapplication.data.AppDatabase;
@@ -54,8 +55,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     replaceFragment(new WorkoutFragment());
                     break;
                 default:
-                    System.out.println("Ehm, why did i get default here?");
-            }
+                    Toast.makeText(this, "fragment-switching ERROR!", Toast.LENGTH_SHORT).show();            }
 
             return true;
         });
@@ -90,12 +90,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 replaceFragment(new SettingsFragment());
                 break;
             case R.id.btn_nextWorkout:
-                MyApplication.changeWorkout(this,view, "next");
+                MyApplication.changeWorkout(this, "next");
                 binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
                 replaceFragment(new SettingsFragment());
                 break;
             case R.id.btn_prevSesh:
-                MyApplication.changeWorkout(this,view, "prev");
+                MyApplication.changeWorkout(this, "prev");
                 binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
                 replaceFragment(new SettingsFragment());
                 break;

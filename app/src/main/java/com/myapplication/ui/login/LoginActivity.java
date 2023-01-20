@@ -3,10 +3,12 @@ package com.myapplication.ui.login;
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -167,8 +169,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         guestButton.setOnClickListener(v ->  {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//            startActivity(intent);
         });
     }
 
@@ -203,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateUI(FirebaseUser user) {
         if(user != null) {
             Toast.makeText(LoginActivity.this, user.getEmail() + " logged in!",
@@ -222,8 +225,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
             } else {
+                // TODO
                 User roomUser = new User();
-                roomUser.userName = "Idar";
+                roomUser.userName = "null";
                 roomUser.email = Objects.requireNonNull(user.getEmail());
                 roomUser.password = "password";
                 roomUser.wid = -1;
@@ -232,13 +236,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
 
-
+            MyApplication.loadWorkouts(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStart() {
         super.onStart();

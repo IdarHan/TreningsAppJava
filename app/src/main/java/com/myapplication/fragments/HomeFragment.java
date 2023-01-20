@@ -1,7 +1,9 @@
 package com.myapplication.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.myapplication.MyApplication;
@@ -67,6 +70,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +81,7 @@ public class HomeFragment extends Fragment {
 
         seshTrackerTV = (TextView) view.findViewById(R.id.tv_seshTracker);
         seshTrackerTV.setText(getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
-                Integer.toString(MyApplication.getTotalSeshCount()), Integer.toString(MyApplication.getCurrentUser().wid)));
+                Integer.toString(MyApplication.getTotalSeshCount())));
         if(MyApplication.getSeshNr() != 0)
             seshTrackerTV.setVisibility(View.VISIBLE);
 

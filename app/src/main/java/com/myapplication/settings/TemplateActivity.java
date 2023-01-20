@@ -124,9 +124,6 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
         btn_backFromTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.putExtra("ToSettings", true);
-                startActivity(intent);
                 finish();
             }
         });

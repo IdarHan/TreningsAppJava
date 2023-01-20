@@ -106,9 +106,9 @@ public class NewExerciseForm extends AppCompatActivity {
                     }
 
                     //put the strings into a message for SettingActivity
-                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                    intent.putExtra("ToSettings", true);
-                    startActivity(intent);
+//                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
+//                    intent.putExtra("ToSettings", true);
+//                    startActivity(intent);
                     finish();
                 }
             }
@@ -166,9 +166,6 @@ public class NewExerciseForm extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                intent.putExtra("ToSettings", true);
-                startActivity(intent);
                 finish();
             }
         });
