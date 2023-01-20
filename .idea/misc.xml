@@ -8,7 +8,7 @@
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.204" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.314" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/drawable/ic_launcher_background.xml" value="0.314" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_login.xml" value="0.2026507054296708" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/activity_new_exercise_form.xml" value="0.2321504916631039" />
@@ -18,7 +18,7 @@
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/add_exercise_form.xml" value="0.1" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/exercise_one_line.xml" value="0.4175824175824176" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/fragment_workout.xml" value="0.20478837109876016" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_dropdown_item.xml" value="0.1611799914493373" />
         <entry key="..\:/Users/Idar/1Aa_Programming/TreningsAppJava/app/src/main/res/layout/my_listview_detail.xml" value="0.37595907928388744" />

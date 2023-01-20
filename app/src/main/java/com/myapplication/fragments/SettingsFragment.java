@@ -138,8 +138,6 @@ public class SettingsFragment extends Fragment {
         // swipe function
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                //if(event.getAction() == MotionEvent.ACTION_MOVE){
-                System.out.println("-------------- MotionEvent.getAction() = " + event.getAction() + " ---------------, should be: " + MotionEvent.ACTION_DOWN + ", or: " + MotionEvent.ACTION_UP);
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
@@ -149,13 +147,12 @@ public class SettingsFragment extends Fragment {
                         if (x1 > x2) { // swipe right
                             ((HomeActivity) requireActivity()).replaceFragment(new WorkoutFragment(), "workout");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Workout);
-                        }else if(x1 > x2) { // swipe left
+                        }else if(x1 < x2) { // swipe left
                             ((HomeActivity) requireActivity()).replaceFragment(new HomeFragment(), "home");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Home);
                         }
                         break;
                 }
-                // }
                 return true;
             }
         });
