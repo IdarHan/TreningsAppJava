@@ -15,8 +15,10 @@
         android:theme="@style/Theme.TreningsAppJava"
         android:background="#3C3D3D"
         tools:targetApi="31">
-        <activity android:name=".HomeActivity"
-        android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:launchMode="singleTask"
+            android:exported="false" />
         <activity
             android:name=".settings.TemplateActivity"
             android:exported="false" />

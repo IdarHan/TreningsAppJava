@@ -1,5 +1,6 @@
 package com.myapplication.fragments;
 
+import android.content.res.Resources;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,15 +141,15 @@ public class WorkoutFragment extends Fragment {
         // swipe function
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                //if(event.getAction() == MotionEvent.ACTION_MOVE){
-                System.out.println("-------------- MotionEvent.getAction() = " + event.getAction() + " ---------------, should be: " + MotionEvent.ACTION_DOWN + ", or: " + MotionEvent.ACTION_UP);
+                float maxX = Resources.getSystem().getDisplayMetrics().widthPixels;
+                view.performClick();
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
                         break;
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
-                        if(x1 < x2) { // swipe right
+                        if(x1 < x2 && x2 - x1 > maxX * 0.2) { // swipe right
                             ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
                         }

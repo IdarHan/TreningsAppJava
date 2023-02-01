@@ -1,6 +1,7 @@
 package com.myapplication.fragments;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,10 +87,19 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
+        adapter = new ExerciseAdapter(requireActivity(), exercises);
+        lv_exercises.setAdapter(adapter);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        user = MyApplication.getCurrentUser();
         // Inflate the layout for this fragment
         getContext().getTheme().applyStyle(R.style.ListFont, true);
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -108,9 +118,6 @@ public class SettingsFragment extends Fragment {
         }));
 
 
-        //listen for incoming messages
-        Bundle incomingIntent = getActivity().getIntent().getExtras();
-        user = MyApplication.getCurrentUser();
 
         if(user != null) {
             exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(user.wid);
@@ -138,16 +145,18 @@ public class SettingsFragment extends Fragment {
         // swipe function
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
+                float maxX = Resources.getSystem().getDisplayMetrics().widthPixels;
+                view.performClick();
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
                         break;
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
-                        if (x1 > x2) { // swipe right
+                        if (x1 > x2 && x1 - x2 > maxX * 0.2) { // swipe right
                             ((HomeActivity) requireActivity()).replaceFragment(new WorkoutFragment(), "workout");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Workout);
-                        }else if(x1 < x2) { // swipe left
+                        }else if(x1 < x2 && x2 - x1 > maxX * 0.2) { // swipe left
                             ((HomeActivity) requireActivity()).replaceFragment(new HomeFragment(), "home");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Home);
                         }

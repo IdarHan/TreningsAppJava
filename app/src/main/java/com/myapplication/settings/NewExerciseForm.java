@@ -102,13 +102,12 @@ public class NewExerciseForm extends AppCompatActivity {
                         e.id = edit;
                         AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
                         Toast.makeText(getApplicationContext(), "Exercise Updated!", Toast.LENGTH_SHORT).show();
-
                     }
 
-                    //put the strings into a message for SettingActivity
-//                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
 //                    intent.putExtra("ToSettings", true);
-//                    startActivity(intent);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
                     finish();
                 }
             }
@@ -126,12 +125,13 @@ public class NewExerciseForm extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // on below line we are displaying a toast message.
                                 Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                                intent.putExtra("ToSettings", true);
 
                                 // delete the exercise
                                 Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
                                 AppDatabase.getInstance(getApplicationContext()).exerciseDao().delete(exercise);
+                                Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                                intent.putExtra("ToSettings", true);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 finish();
                                 break;

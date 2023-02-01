@@ -3,13 +3,10 @@ package com.myapplication;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,14 +21,10 @@ import com.myapplication.settings.NewExerciseForm;
 import com.myapplication.settings.TemplateActivity;
 import com.myapplication.ui.login.LoginActivity;
 
-import java.util.List;
-import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     public ActivityHomeBinding binding;
-    private User user;
-    float x1,x2,y1,y2;
     Bundle testBundle;
 
     @Override
@@ -40,13 +33,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         testBundle = savedInstanceState;
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment(), "home");
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new HomeFragment(), "home")
+                    .commit();
+        }
         Bundle incomingIntent = getIntent().getExtras();
-        if(incomingIntent != null && !incomingIntent.isEmpty() && incomingIntent.containsKey("ToSettings")) {
-            String name = incomingIntent.getString("username");
-            user = AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(name);
-            binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
-            replaceFragment(new SettingsFragment(), "settings");
+        if(incomingIntent != null && !incomingIntent.isEmpty()){
+            if(incomingIntent.containsKey("ToSettingsWipe")) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("ToSettings", true);
+                startActivity(intent);
+                finish();
+            }
+            else if(incomingIntent.containsKey("ToSettings")) {
+                binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
+                replaceFragment(new SettingsFragment(), "settings");
+            }
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -70,49 +73,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*@Override
-    public boolean onTouchEvent(MotionEvent touchEvent) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        List<Fragment> currentfrags = fragmentManager.getFragments();
-        Fragment currentfrag = null;
-        for(Fragment f : currentfrags)
-            if(f.isVisible()) {
-                currentfrag = f;
-                Toast.makeText(this, "currentfrag = " + f, Toast.LENGTH_SHORT).show();
-            }
-        switch(touchEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if(x1 < x2) { // swipe left
-                    if(currentfrag == fragmentManager.getFragment(testBundle,"settings")) {
-                        replaceFragment(new HomeFragment(), "home");
-                    }
-                    else if(currentfrag == fragmentManager.getFragment(testBundle,"workout")) {
-                        replaceFragment(new SettingsFragment(), "settings");
-                    }
-                }
-                else if(x1 > x2) { // swipe right
-                    if(currentfrag == fragmentManager.getFragment(testBundle,"settings")) {
-                        replaceFragment(new HomeFragment(), "workout");
-                    }
-                    else if(currentfrag == fragmentManager.getFragment(testBundle,"home")) {
-                        replaceFragment(new SettingsFragment(), "settings");
-                    }
-                }
-        }
-        return false;
-    }*/
-
     public void replaceFragment(Fragment fragment, String key){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment, key);
-        fragmentTransaction.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment, key)
+                .commit();
     }
 
     public User getUser() {
@@ -137,13 +102,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_nextWorkout:
                 MyApplication.changeWorkout(this, "next");
-                binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
-                replaceFragment(new SettingsFragment(), "workout");
+                HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
+                assert fragment != null;
+                fragment.updateSeshInfo();
+
                 break;
             case R.id.btn_prevSesh:
                 MyApplication.changeWorkout(this, "prev");
-                binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
-                replaceFragment(new SettingsFragment(), "settings");
+                fragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
+                assert fragment != null;
+                fragment.updateSeshInfo();
                 break;
             case R.id.btn_finish:
                 // TODO SAVE WORKOUT PROGRESS

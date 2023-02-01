@@ -1,12 +1,11 @@
 package com.myapplication.fragments;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,16 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.myapplication.HomeActivity;
 import com.myapplication.MyApplication;
 import com.myapplication.R;
-import com.myapplication.data.AppDatabase;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +72,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateSeshInfo();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,19 +108,19 @@ public class HomeFragment extends Fragment {
 
         nukeBtn = view.findViewById(R.id.btn_nuke);
         nukeBtn.setOnClickListener((View.OnClickListener) getActivity());
-        
+
         // swipe function
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                //if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    System.out.println("-------------- MotionEvent.getAction() = " + event.getAction() + " ---------------, should be: " + MotionEvent.ACTION_DOWN + ", or: " + MotionEvent.ACTION_UP);
+                view.performClick();
+                float maxX = Resources.getSystem().getDisplayMetrics().widthPixels;
                     switch(event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             x1 = event.getX();
                             break;
                         case MotionEvent.ACTION_UP:
                             x2 = event.getX();
-                            if (x1 > x2) { // swipe right
+                            if (x1 > x2 && x1 - x2 > maxX * 0.2) { // swipe right
                                 ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
                                 ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
                             }
@@ -130,8 +130,14 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
-        
+
 
         return view;
+    }
+    public void updateSeshInfo() {
+        seshTrackerTV.setText(getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
+                Integer.toString(MyApplication.getTotalSeshCount())));
+        if(MyApplication.getSeshNr() != 0)
+            seshTrackerTV.setVisibility(View.VISIBLE);
     }
 }
