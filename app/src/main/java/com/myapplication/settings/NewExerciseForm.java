@@ -65,110 +65,99 @@ public class NewExerciseForm extends AppCompatActivity {
             et_reps.setText(Integer.toString(reps));
         }
 
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // check for empty inputs
-                if(TextUtils.isEmpty(et_name.getText()) || TextUtils.isEmpty(et_weight.getText())
-                || TextUtils.isEmpty(et_sets.getText()) || TextUtils.isEmpty(et_reps.getText())) {
-                    if (TextUtils.isEmpty(et_weight.getText())) {
-                        et_name.setError("Weight is required!");
-                    }if (TextUtils.isEmpty(et_weight.getText())) {
-                        et_weight.setError("Weight is required!");
-                    } if (TextUtils.isEmpty(et_sets.getText())) {
-                        et_sets.setError("Sets is required!");
-                    } if (TextUtils.isEmpty(et_reps.getText())) {
-                        et_reps.setError("Reps is required!");
-                    }
-                    Toast.makeText(NewExerciseForm.this, "Input information!", Toast.LENGTH_SHORT).show();
+        btn_ok.setOnClickListener(view -> {
+            // check for empty inputs
+            if(TextUtils.isEmpty(et_name.getText()) || TextUtils.isEmpty(et_weight.getText())
+            || TextUtils.isEmpty(et_sets.getText()) || TextUtils.isEmpty(et_reps.getText())) {
+                if (TextUtils.isEmpty(et_weight.getText())) {
+                    et_name.setError("Weight is required!");
+                }if (TextUtils.isEmpty(et_weight.getText())) {
+                    et_weight.setError("Weight is required!");
+                } if (TextUtils.isEmpty(et_sets.getText())) {
+                    et_sets.setError("Sets is required!");
+                } if (TextUtils.isEmpty(et_reps.getText())) {
+                    et_reps.setError("Reps is required!");
                 }
-                else {
-                    //get strings from et_ view object
-                    String newExName = et_name.getText().toString();
-                    int newWeight = Integer.parseInt(et_weight.getText().toString());
-                    int newSets = Integer.parseInt(et_sets.getText().toString());
-                    int newReps = Integer.parseInt(et_reps.getText().toString());
+                Toast.makeText(NewExerciseForm.this, "Input information!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                //get strings from et_ view object
+                String newExName = et_name.getText().toString();
+                int newWeight = Integer.parseInt(et_weight.getText().toString());
+                int newSets = Integer.parseInt(et_sets.getText().toString());
+                int newReps = Integer.parseInt(et_reps.getText().toString());
 
-                    Exercise e = new Exercise();
-                    e.name = newExName;
-                    e.weight = newWeight;
-                    e.sets = newSets;
-                    e.reps = newReps;
-                    e.workout_id = MyApplication.getCurrentUser().wid;
-                    if(edit == -1) {
-                        AppDatabase.getInstance(getApplicationContext()).exerciseDao().insert(e);
-                        Toast.makeText(getApplicationContext(), "Exercise Added!", Toast.LENGTH_SHORT).show();
-                    }else {
-                        e.id = edit;
-                        AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
-                        Toast.makeText(getApplicationContext(), "Exercise Updated!", Toast.LENGTH_SHORT).show();
-                    }
+                Exercise e = new Exercise();
+                e.name = newExName;
+                e.weight = newWeight;
+                e.sets = newSets;
+                e.reps = newReps;
+                e.workout_id = MyApplication.getCurrentUser().wid;
+                if(edit == -1) {
+                    AppDatabase.getInstance(getApplicationContext()).exerciseDao().insert(e);
+                    Toast.makeText(getApplicationContext(), "Exercise Added!", Toast.LENGTH_SHORT).show();
+                }else {
+                    e.id = edit;
+                    AppDatabase.getInstance(getApplicationContext()).exerciseDao().update(e);
+                    Toast.makeText(getApplicationContext(), "Exercise Updated!", Toast.LENGTH_SHORT).show();
+                }
 
-                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                Intent intent = new Intent(view.getContext(), HomeActivity.class);
 //                    intent.putExtra("ToSettings", true);
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            // on below line we are setting a click listener
-                            // for our positive button
-                            case DialogInterface.BUTTON_POSITIVE:
-                                // on below line we are displaying a toast message.
-                                Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
-
-                                // delete the exercise
-                                Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
-                                AppDatabase.getInstance(getApplicationContext()).exerciseDao().delete(exercise);
-                                Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                                intent.putExtra("ToSettings", true);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                                break;
-                            // on below line we are setting click listener
-                            // for our negative button.
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                // on below line we are dismissing our dialog box.
-
-                                dialog.dismiss();
-
-                        }
-                    }
-                };
-
-                // on below line we are creating a builder variable for our alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(NewExerciseForm.this);
-                // on below line we are setting message for our dialog box.
-                builder.setMessage("Are you sure you want to delete this exercise?")
-                        // on below line we are setting positive button
-                        // and setting text to it.
-                        .setPositiveButton("Yes", dialogClickListener)
-                        // on below line we are setting negative button
-                        // and setting text to it.
-                        .setNegativeButton("No", dialogClickListener)
-                        // on below line we are calling
-                        // show to display our dialog.
-                        .show();
-            }
-        });
-
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                startActivity(intent);
                 finish();
             }
         });
+
+        btn_delete.setOnClickListener(view -> {
+            dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        // on below line we are setting a click listener
+                        // for our positive button
+                        case DialogInterface.BUTTON_POSITIVE:
+                            // on below line we are displaying a toast message.
+                            Toast.makeText(NewExerciseForm.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
+
+                            // delete the exercise
+                            Exercise exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDao().findById(edit);
+                            AppDatabase.getInstance(getApplicationContext()).exerciseDao().delete(exercise);
+                            Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                            intent.putExtra("ToSettings", true);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        // on below line we are setting click listener
+                        // for our negative button.
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            // on below line we are dismissing our dialog box.
+
+                            dialog.dismiss();
+
+                    }
+                }
+            };
+
+            // on below line we are creating a builder variable for our alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(NewExerciseForm.this);
+            // on below line we are setting message for our dialog box.
+            builder.setMessage("Are you sure you want to delete this exercise?")
+                    // on below line we are setting positive button
+                    // and setting text to it.
+                    .setPositiveButton("Yes", dialogClickListener)
+                    // on below line we are setting negative button
+                    // and setting text to it.
+                    .setNegativeButton("No", dialogClickListener)
+                    // on below line we are calling
+                    // show to display our dialog.
+                    .show();
+        });
+
+
+        btn_cancel.setOnClickListener(view -> finish());
 
     }
     public class StartGameDialogFragment extends DialogFragment {

@@ -127,7 +127,7 @@ public class SettingsFragment extends Fragment {
                 workout = new Workout();
                 workout.workoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkoutNum(user.email) + 1;
                 workout.user_email = user.email;
-                workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
+                workout.date = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
                 user.wid = AppDatabase.getInstance(getContext()).workoutDao().getNewestWorkoutId() + 1;
                 AppDatabase.getInstance(getContext()).userDao().updateUser(user);
                 AppDatabase.getInstance(getContext()).workoutDao().insertAll(workout);

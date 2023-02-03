@@ -25,6 +25,8 @@
         <activity
             android:name=".settings.NewExerciseForm"
             android:exported="false" />
+        <activity android:name=".ui.login.RegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">

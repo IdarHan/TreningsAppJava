@@ -20,7 +20,7 @@ public class Workout {
     @ColumnInfo(name = "workout_number")
     public int workoutNumber;
     @ColumnInfo(name = "date")
-    public String time;
+    public String date;
     @ColumnInfo(name = "template_name")
     public String templateName;
 }

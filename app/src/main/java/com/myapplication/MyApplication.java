@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -54,17 +53,16 @@ public class MyApplication extends Application {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static boolean newWorkout(Context applicationContext) {
+    public static void newWorkout(Context applicationContext) {
         int oldWid = currentUser.wid;
         Workout workout = new Workout();
 
         workout.workoutNumber = AppDatabase.getInstance(applicationContext).workoutDao().getNewestUserWorkoutNum(currentUser.email) + 1;
         workout.user_email = currentUser.email;
-        workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
+        workout.date = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
         AppDatabase.getInstance(applicationContext).workoutDao().insertAll(workout);
         currentUser.wid = AppDatabase.getInstance(applicationContext).workoutDao().getNewestWorkoutIdByEmail(currentUser.email);
         Toast.makeText(applicationContext, "Created a new workout!", Toast.LENGTH_SHORT).show();
-        return oldWid != currentUser.wid;
     }
 
     /**
@@ -77,6 +75,7 @@ public class MyApplication extends Application {
         List<Workout> workoutList = AppDatabase.getInstance(applicationContext).workoutDao().findByEmail(currentUser.email);
         if(workoutList.isEmpty()) {
             newWorkout(applicationContext);
+            totalSeshCount = 1;
             return;
         }
         totalSeshCount = workoutList.size();
@@ -114,6 +113,7 @@ public class MyApplication extends Application {
         List<Workout> workoutList = AppDatabase.getInstance(applicationContext).workoutDao().findByEmail(currentUser.email);
         if(workoutList.isEmpty()) {
             newWorkout(applicationContext);
+            totalSeshCount = 1;
             return;
         }
         totalSeshCount = workoutList.size();

@@ -1,47 +1,154 @@
 package com.myapplication;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.PrimaryKey;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.myapplication.data.AppDatabase;
 import com.myapplication.data.Exercise;
 import com.myapplication.data.User;
+import com.myapplication.data.UserDao;
 import com.myapplication.data.Workout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class FirestoreService {
-    private  List<User> userList = new ArrayList<User>();
-    private List<Workout> workoutList = new ArrayList<Workout>();
-    private List<Exercise> exerciseList = new ArrayList<Exercise>();
+    private static FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private static final String TAG = "FirestoreExport";
 
-    /*AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
-    List<Workout> workoutList = AppDatabase.getInstance(getApplicationContext()).workoutDao().findByUser(getUser().userName);
 
-    List<Map<String, Object>> wksListMap = new ArrayList<>();
-            for(Workout w : workoutList) {
-        Map<String, Object> workoutMap = new HashMap<>();
-        workoutMap.put("workout_number", w.workoutNumber);
-        workoutMap.put("date", w.time);
-        workoutMap.put("template_name", w.templateName);
-        workoutMap.put("id", w.id);
-        wksListMap.add(workoutMap);
+    public static void exportToFs(Context context, boolean update) {
+        if(!update) {
+            // Retrieve data from Room
+            User user = MyApplication.getCurrentUser();
+            List<Workout> workouts = AppDatabase.getInstance(context).workoutDao().findByEmail(user.email);
+
+            // Convert data to Firestore objects
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("email", user.email);
+            userData.put("name", user.userName);
+            userData.put("password", user.password);
+            userData.put("workout_id", user.wid);
+
+            List<Map<String, Object>> workoutData = new ArrayList<>();
+            for (Workout workout : workouts) {
+                Map<String, Object> workoutMap = new HashMap<>();
+                workoutMap.put("template", workout.templateName);
+                workoutMap.put("date", workout.date);
+                workoutMap.put("id", workout.id);
+                workoutMap.put("workout_number", workout.workoutNumber);
+                workoutMap.put("user_email", workout.user_email);
+                List<Map<String, Object>> exerciseData = new ArrayList<>();
+                for (Exercise exercise : AppDatabase.getInstance(context).exerciseDao().findByWorkoutID(workout.id)) {
+                    Map<String, Object> exerciseMap = new HashMap<>();
+                    exerciseMap.put("name", exercise.name);
+                    exerciseMap.put("id", exercise.id);
+                    exerciseMap.put("weight", exercise.weight);
+                    exerciseMap.put("sets", exercise.sets);
+                    exerciseMap.put("reps", exercise.reps);
+                    exerciseMap.put("workout_id", exercise.workout_id);
+                    exerciseData.add(exerciseMap);
+                }
+                workoutMap.put("exercises", exerciseData);
+                workoutData.add(workoutMap);
+            }
+            userData.put("workouts", workoutData);
+
+            // Add data to Firestore
+            firestore.collection("users").document(user.email)
+                    .set(userData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "User data exported to Firestore");
+                            Toast.makeText(context, "User data exported to Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error exporting user data to Firestore", e);
+                            Toast.makeText(context, "Error exporting user data to Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            // TODO Seperate code for updating / merge?
+        }
     }
 
-//            List<Map<String, Object>> a = workoutList.stream()
-//                    .map(w -> {
-//                        Map<String, Object> workoutMap2 = new HashMap<>();
-//                        workoutMap2.put("workout_number", w.workoutNumber);
-//                        workoutMap2.put("date", w.time);
-//                        workoutMap2.put("template_name", w.templateName);
-//                        workoutMap2.put("id", w.id);
-//                        return workoutMap2;
-//                    }).collect(Collectors.toList());
+    public static void importFromFs(Context context, boolean update) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-            userMap.put("name", currentUser.userName);
-            userMap.put("email", currentUser.email);
-            userMap.put("password", currentUser.password);
-            userMap.put("workouts", wksListMap);
+        // Query Firestore
+        String userEmail = MyApplication.getCurrentUser().email;
+        firestore.collection("users").document(userEmail)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // Convert Firestore data to Room objects
+                            List<Workout> workouts = new ArrayList<>();
+                            List<Map<String, Object>> workoutData = (List<Map<String, Object>>) documentSnapshot.get("workouts");
+                            assert workoutData != null;
+                            for (Map<String, Object> workoutMap : workoutData) {
+                                Workout workout = new Workout();
+                                workout.date = (String) workoutMap.get("date");
+                                workout.id = ((Long) Objects.requireNonNull(workoutMap.get("id"))).intValue();;
+                                workout.user_email = userEmail;
+                                workout.workoutNumber = ((Long) Objects.requireNonNull(workoutMap.get("workout_number"))).intValue();
+                                workout.templateName = (String) workoutMap.get("template");
+                                List<Exercise> exercises = new ArrayList<>();
+                                List<Map<String, Object>> exerciseData = (List<Map<String, Object>>) workoutMap.get("exercises");
+                                assert exerciseData != null;
+                                AppDatabase.getInstance(context).workoutDao().insertAll(workout);
+                                workouts.add(workout);
+                                for (Map<String, Object> exerciseMap : exerciseData) {
+                                    Exercise exercise = new Exercise();
+                                    //exercise.id = ((Long) Objects.requireNonNull(exerciseMap.get("id"))).intValue();;
+                                    exercise.name = (String) exerciseMap.get("name");
+                                    exercise.workout_id = workout.id;//((Long) Objects.requireNonNull(exerciseMap.get("workout_id"))).intValue();
+                                    exercise.weight = ((Long) Objects.requireNonNull(exerciseMap.get("weight"))).intValue();
+                                    exercise.sets = ((Long) Objects.requireNonNull(exerciseMap.get("sets"))).intValue();
+                                    exercise.reps = ((Long) Objects.requireNonNull(exerciseMap.get("reps"))).intValue();
+                                    System.out.printf("workout_id: %d\n", exercise.workout_id);
+                                    AppDatabase.getInstance(context).exerciseDao().insert(exercise);
+                                    exercises.add(exercise);
+                                }
+                            }
+                            Log.d(TAG, "User data imported from Firestore");
+                            Toast.makeText(context, "User data imported from Firestore", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.w(TAG, "User not found in Firestore");
+                            Toast.makeText(context, "User not found in Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error importing user data from Firestore", e);
+                        Toast.makeText(context, "Error importing user data from Firestore", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-    uploadstuff();*/
+        }
+
+
+
+    /*AppDatabase.getInstance(getApplicationContext()).userDao().updateUser(getUser());
+    List<Workout> workoutList = AppDatabase.getInstance(getApplicationContext()).workoutDao().findByUser(getUser().userName);*/
 }

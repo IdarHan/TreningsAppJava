@@ -95,17 +95,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(logoutIntent);
                 finish();
                 break;
-            case R.id.btn_newSesh:
+            /*case R.id.btn_newSesh:
                 MyApplication.newWorkout(this);
                 binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
                 replaceFragment(new SettingsFragment(), "settings");
-                break;
+                break;*/
             case R.id.btn_nextWorkout:
                 MyApplication.changeWorkout(this, "next");
                 HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
                 assert fragment != null;
                 fragment.updateSeshInfo();
-
                 break;
             case R.id.btn_prevSesh:
                 MyApplication.changeWorkout(this, "prev");
@@ -126,6 +125,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Intent templateIntent = new Intent(view.getContext(), TemplateActivity.class);
                 startActivity(templateIntent);
                 break;
+           /* case R.id.btn_export:
+                FirestoreService.exportToFs(getApplicationContext(), false);
+                break;
+            case R.id.btn_import:
+                FirestoreService.importFromFs(getApplicationContext(), false);
+                break;
             case R.id.btn_nuke:
                 AppDatabase.getInstance(getApplicationContext()).exerciseDao().nukeTable();
                 AppDatabase.getInstance(getApplicationContext()).workoutDao().nukeTable();
@@ -134,7 +139,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //                FirebaseAuth.getInstance().signOut();
 //                startActivity(nukedIntent);
 //                finish();
-                break;
+                break;*/
         }
 
     }
