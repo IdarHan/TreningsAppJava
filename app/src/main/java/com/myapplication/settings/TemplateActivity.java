@@ -27,7 +27,7 @@ import java.util.List;
 
 public class TemplateActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Button btn_applyTemplate, btn_saveTemplate, btn_backFromTemplate;
+    private Button btn_applyTemplate, btn_saveTemplate;
     private Spinner spin_template;
     private EditText et_templateName;
     private TextView tv_saveTemplate;
@@ -41,14 +41,10 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
 
         btn_applyTemplate = findViewById(R.id.btn_apply_template);
         btn_saveTemplate = findViewById(R.id.btn_save_template);
-        btn_backFromTemplate = findViewById(R.id.btn_back_from_template);
         spin_template = findViewById(R.id.spin_templates);
         et_templateName = findViewById(R.id.et_template_name);
         tv_saveTemplate = findViewById(R.id.tv_new_template_name);
-
         spin_template.setOnItemSelectedListener(this);
-        //btn_applyTemplate.clearAnimation();
-        //btn_applyTemplate.setVisibility(View.INVISIBLE);
 
         // Spinner Drop down elements
         templateList = (AppDatabase.getInstance(getApplicationContext()).workoutDao().findTempsByUser(getUser().email));
@@ -118,16 +114,9 @@ public class TemplateActivity extends AppCompatActivity implements AdapterView.O
                     dataAdapter = new ArrayAdapter<String>(TemplateActivity.this, android.R.layout.simple_spinner_item, templateList);
                     spin_template.setAdapter(dataAdapter);
                 }
-            }
-        });
-
-        btn_backFromTemplate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 finish();
             }
         });
-
     }
 
     public User getUser() {

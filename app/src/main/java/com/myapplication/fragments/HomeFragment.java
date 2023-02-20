@@ -13,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -93,6 +96,11 @@ public class HomeFragment extends Fragment  {
         updateSeshInfo(getContext());
     }
 
+    private void reloadFrag() {
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,7 +146,6 @@ public class HomeFragment extends Fragment  {
                     // for our positive button
                     case DialogInterface.BUTTON_POSITIVE:
                         nukeTables();
-                        requireActivity().recreate();
                         MyApplication.loadWorkouts(getContext());
                         updateSeshInfo(getContext());
                         break;
@@ -223,7 +230,7 @@ public class HomeFragment extends Fragment  {
                                         .getCurrentUser()
                                         .email);
                         updateSeshInfo(getContext());
-                        requireActivity().recreate();
+                        reloadFrag();
                         break;
                     // on below line we are setting click listener
                     case DialogInterface.BUTTON_NEGATIVE:
