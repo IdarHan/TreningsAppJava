@@ -107,6 +107,7 @@ public class FirestoreService {
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName((String) documentSnapshot.get("name")).build();
                             assert user != null;
+                            MyApplication.getCurrentUser().userName = user.getDisplayName();
                             user.updateProfile(profileUpdates);
                             // Convert Firestore data to Room objects
                             List<Map<String, Object>> workoutData = (List<Map<String, Object>>) documentSnapshot.get("workouts");

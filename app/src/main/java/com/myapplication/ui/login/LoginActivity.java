@@ -56,10 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
-    //private FragmentEmailpasswordBinding mBinding;
-    private Button loginButton, registerButton, guestButton, verifyButton;
-    private Map<String, Object> userMap = new HashMap<>();
-    private FirebaseFirestore db;
 
 
     @Override
@@ -79,8 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         final Button guestButton = binding.GuestButton;
         final Button verifyButton = binding.VerifyButton;
         final ProgressBar loadingProgressBar = binding.loading;
-
-        db = FirebaseFirestore.getInstance();
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -248,24 +242,5 @@ public class LoginActivity extends AppCompatActivity {
 
     public User getUser() {
         return MyApplication.getCurrentUser();
-    }
-
-    private void uploadstuff() {
-        db.collection("Users")
-                .add(userMap)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(LoginActivity.this, "Success! DB add done", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "DB add Failure!", Toast.LENGTH_SHORT).show();
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
     }
 }
