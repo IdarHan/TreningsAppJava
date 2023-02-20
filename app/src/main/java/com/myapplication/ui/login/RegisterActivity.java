@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.myapplication.HomeActivity;
 import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
@@ -153,13 +154,17 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // Setting firebase displayName for the user
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username).build();
+                            assert user != null;
+                            user.updateProfile(profileUpdates);
 
                             User roomUser = new User();
                             roomUser.email = email;
                             roomUser.userName = username;
-                            roomUser.password = password;
                             AppDatabase.getInstance(getApplicationContext()).userDao().insertAll(roomUser);
-                            signInWithEmailAndPassword(roomUser.email, roomUser.password);
+                            signInWithEmailAndPassword(email, password);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -179,7 +184,6 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            System.out.println(user.toString());
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

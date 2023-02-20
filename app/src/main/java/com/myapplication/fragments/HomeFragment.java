@@ -2,8 +2,8 @@ package com.myapplication.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -26,18 +26,12 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.myapplication.FirestoreService;
 import com.myapplication.HomeActivity;
 import com.myapplication.MyApplication;
 import com.myapplication.R;
 import com.myapplication.data.AppDatabase;
-import com.myapplication.data.Exercise;
-import com.myapplication.settings.NewExerciseForm;
-import com.myapplication.ui.login.LoginActivity;
-
-import org.w3c.dom.Text;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,20 +86,24 @@ public class HomeFragment extends Fragment  {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
-        updateSeshInfo();
+        updateSeshInfo(getContext());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView welcomeTV = view.findViewById(R.id.tv_welcome_title);
-        welcomeTV.setText(getString(R.string.welcome_message, MyApplication.getCurrentUser().userName));
+        assert fbUser != null;
+        welcomeTV.setText(getString(R.string.welcome_message, fbUser.getDisplayName() ));
 
         seshTrackerTV = view.findViewById(R.id.tv_seshTracker);
         seshTrackerTV.setText(getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
@@ -126,7 +124,7 @@ public class HomeFragment extends Fragment  {
         Button newSeshBtn = view.findViewById(R.id.btn_newSesh);
         newSeshBtn.setOnClickListener(View -> {
             MyApplication.newWorkout(getContext());
-            updateSeshInfo();
+            updateSeshInfo(getContext());
             HomeActivity act = (HomeActivity) requireActivity();
             act.binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
             act.replaceFragment(new SettingsFragment(), "settings");
@@ -139,13 +137,10 @@ public class HomeFragment extends Fragment  {
                     // on below line we are setting a click listener
                     // for our positive button
                     case DialogInterface.BUTTON_POSITIVE:
-                        AppDatabase.getInstance(getContext()).exerciseDao().nukeTable();
-                        AppDatabase.getInstance(getContext()).workoutDao().nukeTable();
-//                            Intent logoutIntent = new Intent(getContext(), LoginActivity.class);
-//                            FirebaseAuth.getInstance().signOut();
-//                            startActivity(logoutIntent);
+                        nukeTables();
                         requireActivity().recreate();
-                        updateSeshInfo();
+                        MyApplication.loadWorkouts(getContext());
+                        updateSeshInfo(getContext());
                         break;
                         // on below line we are setting click listener
                         // for our negative button.
@@ -182,7 +177,7 @@ public class HomeFragment extends Fragment  {
                     // for our positive button
                     case DialogInterface.BUTTON_POSITIVE:
                         FirestoreService.exportToFs(getContext(), false);
-                        updateSeshInfo();
+                        updateSeshInfo(getContext());
                         // on below line we are setting click listener
                         // for our negative button.
                         break;
@@ -220,15 +215,19 @@ public class HomeFragment extends Fragment  {
                 switch (which) {
                     // on below line we are setting a click listener
                     case DialogInterface.BUTTON_POSITIVE:
-                        AppDatabase.getInstance(getContext()).exerciseDao().nukeTable();
-                        AppDatabase.getInstance(getContext()).workoutDao().nukeTable();
-                        FirestoreService.importFromFs(getContext(), false);
+                        nukeTables();
+                        FirestoreService.importFromFs(getContext(), this, false);
+                        MyApplication.getCurrentUser().wid = AppDatabase.getInstance(getContext())
+                                .workoutDao()
+                                .getNewestWorkoutIdByEmail(MyApplication
+                                        .getCurrentUser()
+                                        .email);
+                        updateSeshInfo(getContext());
                         requireActivity().recreate();
                         break;
                     // on below line we are setting click listener
                     case DialogInterface.BUTTON_NEGATIVE:
                         dialog.dismiss();
-
                 }
             };
 
@@ -253,10 +252,6 @@ public class HomeFragment extends Fragment  {
                     .show();
         });
 
-
-//        importBtn.setOnClickListener((View.OnClickListener) getActivity());
-
-
         // swipe function
         view.setOnTouchListener((v, event) -> {
             view.performClick();
@@ -273,18 +268,28 @@ public class HomeFragment extends Fragment  {
                         }
                         break;
                 }
-           // }
             return true;
         });
 
 
         return view;
     }
-    public void updateSeshInfo() {
-        seshTrackerTV.setText(getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
-                Integer.toString(MyApplication.getTotalSeshCount())));
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateSeshInfo(Context context) {
+        if(isAdded() && getContext() != null)
+            seshTrackerTV.setText(requireActivity().getString(R.string.sesh_tracker, Integer.toString(MyApplication.getSeshNr()),
+                    Integer.toString(MyApplication.getTotalSeshCount())));
+        else
+            Toast.makeText(context, "Couldn't update sesh tracker - activity is null", Toast.LENGTH_SHORT).show();
         if(MyApplication.getSeshNr() != 0)
             seshTrackerTV.setVisibility(View.VISIBLE);
+        else
+            seshTrackerTV.setVisibility(View.INVISIBLE);
+    }
+
+    private void nukeTables( ) {
+        AppDatabase.getInstance(getContext()).exerciseDao().nukeTable();
+        AppDatabase.getInstance(getContext()).workoutDao().nukeTable();
     }
 
     public static class StartGameDialogFragment extends DialogFragment {

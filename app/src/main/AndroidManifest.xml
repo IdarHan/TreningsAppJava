@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TreningsAppJava"
+        android:theme="@style/Theme.PumperBuddy"
         android:background="#3C3D3D"
         tools:targetApi="31">
         <activity

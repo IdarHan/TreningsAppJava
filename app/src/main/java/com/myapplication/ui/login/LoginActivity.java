@@ -184,16 +184,6 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            assert user != null;
-                            /*if(!mAuth.getCurrentUser().isEmailVerified()) { // TODO email verification???
-                                return;
-                            }*/
-
-                            /*setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
-                            if(getUser() == null) {
-                                Toast.makeText(LoginActivity.this, "404 USER NOT FOUND", Toast.LENGTH_SHORT).show();
-                                return;
-                            }*/
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -207,35 +197,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void updateUI(FirebaseUser user) {
-        if(user != null) {
-            Toast.makeText(LoginActivity.this, user.getEmail() + " logged in!",
+    private void updateUI(FirebaseUser fbUser) {
+        if(fbUser != null) {
+            Toast.makeText(LoginActivity.this, fbUser.getDisplayName() + " logged in!",
                     Toast.LENGTH_SHORT).show();
-            setUser(AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(user.getEmail()));
-            User currentUser  = getUser();
-            if(currentUser != null) {
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName("").build();
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "Username updated.");
-                                }
-                            }
-                        });
-            } else {
-                // TODO
+            User currentUser  = AppDatabase.getInstance(getApplicationContext()).userDao().findByEmail(fbUser.getEmail());
+            if(currentUser == null) {
                 User roomUser = new User();
-                roomUser.userName = "null";
-                roomUser.email = Objects.requireNonNull(user.getEmail());
-                roomUser.password = "password";
+                roomUser.userName = fbUser.getDisplayName();
+                roomUser.email = Objects.requireNonNull(fbUser.getEmail());
                 roomUser.wid = -1;
                 AppDatabase.getInstance(getApplicationContext()).userDao().insert(roomUser);
                 MyApplication.setCurrentUser(roomUser);
             }
-
+            else
+                setUser(currentUser);
 
             MyApplication.loadWorkouts(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

@@ -104,13 +104,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 MyApplication.changeWorkout(this, "next");
                 HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
                 assert fragment != null;
-                fragment.updateSeshInfo();
+                fragment.updateSeshInfo(getApplicationContext());
                 break;
             case R.id.btn_prevSesh:
                 MyApplication.changeWorkout(this, "prev");
                 fragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
                 assert fragment != null;
-                fragment.updateSeshInfo();
+                fragment.updateSeshInfo(getApplicationContext());
                 break;
             case R.id.btn_finish:
                 // TODO SAVE WORKOUT PROGRESS

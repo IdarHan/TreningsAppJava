@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TreningsAppJava</string>
+    <string name="app_name">PumperBuddy</string>
     <string name="workout">Workout</string>
     <string name="get_fuckin_pumped_boi">Are you ready to pump?</string>
     <string name="username"></string>
@@ -35,10 +35,6 @@
     <string name="invalid_password">Invalid Password</string>
     <string name="welcome_message">Get heckin pumped,\n%1$s!</string>
     <string name="sesh_tracker">Current sesh: %1$s/%2$s</string>
-    <string name="test2">Noolol</string>
-    <string name="test3">Noolol</string>
-    <string name="test4">Noolol</string>
-    <string name="test5">Noolol</string>
 
 
 
