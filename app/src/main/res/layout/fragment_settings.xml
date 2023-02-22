@@ -7,6 +7,21 @@
     android:background="#3C3D3D"
     tools:context=".fragments.SettingsFragment">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="match_parent"
+        android:layout_height="646dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/colemandance"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lv_listOfExercises"
+
+        app:layout_constraintVertical_bias="0.991" />
+
     <Button
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
@@ -115,6 +130,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/addBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

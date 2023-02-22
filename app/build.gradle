@@ -76,5 +76,8 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-auth:21.1.0'
 
+    //gif dependency
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+
 
 }

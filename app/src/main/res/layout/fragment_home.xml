@@ -8,6 +8,14 @@
     android:orientation="horizontal"
     tools:context=".fragments.HomeFragment">
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/gigagif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tv_welcome_title"
         android:layout_width="wrap_content"
@@ -18,7 +26,7 @@
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"
-        android:text="Get heckin pumped!"
+        android:text="Get heckin' PUMPED!\n 🦵💪"
         android:textColor="#FAD988"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -33,10 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Logout"
+        android:text="❌ Logout ❌"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:backgroundTint="#85390000"
         app:layout_constraintBottom_toBottomOf="@+id/btn_export"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -49,7 +56,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="24dp"
-        android:text="Prev"
+        android:text="👉"
         android:textSize="22sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +69,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="24dp"
-        android:text="Next"
+        android:text="👈"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -71,12 +78,14 @@
         android:id="@+id/btn_newSesh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Sesh"
+        android:text="‍New 🏋️‍♂️"
         android:textSize="22sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/tv_welcome_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_import" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout"
+        app:layout_constraintVertical_bias="0.506" />
 
     <TextView
         android:id="@+id/tv_seshTracker"

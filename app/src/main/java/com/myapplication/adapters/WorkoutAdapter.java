@@ -18,6 +18,7 @@ public class WorkoutAdapter extends BaseAdapter {
     String[] sets;
     String[] reps;
 
+
     public WorkoutAdapter(Context c, String[] names, String[] weights, String[] sets, String[] reps) {
         this.names = names;
         this.weights = weights;
@@ -70,6 +71,8 @@ public class WorkoutAdapter extends BaseAdapter {
             }
         });
 
+
+
         String name = names[i];
         String weight = weights[i];
         String set = sets[i];
@@ -83,4 +86,6 @@ public class WorkoutAdapter extends BaseAdapter {
         seekBarValue.setText(currentSets);
         return v;
     }
+
+
 }

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3C3D3D"
-    tools:context=".settings.NewExerciseForm">
+    android:background="@drawable/darkwall2">
+
+tools:context=".settings.NewExerciseForm">
 
     <include
         android:id="@+id/include"

@@ -272,6 +272,9 @@ public class HomeFragment extends Fragment  {
                         if (x1 > x2 && x1 - x2 > maxX * 0.2) { // swipe right
                             ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
                             ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
+                        }else if(x1 < x2 && x2 - x1 > maxX * 0.2) { // swipe left
+                            ((HomeActivity) requireActivity()).replaceFragment(new WorkoutFragment(), "workout");
+                            ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Workout);
                         }
                         break;
                 }

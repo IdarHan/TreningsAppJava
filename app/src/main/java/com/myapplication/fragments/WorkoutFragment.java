@@ -139,25 +139,25 @@ public class WorkoutFragment extends Fragment {
         myListView.setAdapter(workoutAdapter);
 
         // swipe function
-        view.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                float maxX = Resources.getSystem().getDisplayMetrics().widthPixels;
-                view.performClick();
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x1 = event.getX();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        x2 = event.getX();
-                        if(x1 < x2 && x2 - x1 > maxX * 0.2) { // swipe right
-                            ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
-                            ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
-                        }
-                        break;
-                }
-                // }
-                return true;
+        view.setOnTouchListener((View.OnTouchListener) (v, event) -> {
+            float maxX = Resources.getSystem().getDisplayMetrics().widthPixels;
+            view.performClick();
+            switch(event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    x1 = event.getX();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    x2 = event.getX();
+                    if(x1 < x2 && x2 - x1 > maxX * 0.2) { // swipe right
+                        ((HomeActivity) requireActivity()).replaceFragment(new SettingsFragment(), "settings");
+                        ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Settings);
+                    }else  if (x1 > x2 && x1 - x2 > maxX * 0.2) { // swipe right
+                        ((HomeActivity) requireActivity()).replaceFragment(new HomeFragment(), "home");
+                        ((HomeActivity) requireActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.Home);
+                    }
+                    break;
             }
+            return true;
         });
 
 

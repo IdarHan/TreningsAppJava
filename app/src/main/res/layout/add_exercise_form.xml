@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#3C3D3D">
+    android:orientation="vertical" >
+
+
 
     <EditText
         android:id="@+id/et_ex_name"
@@ -52,4 +53,5 @@
         android:textColor="#FAD988"
         android:textColorHint="#AFAFAF"
         android:minHeight="48dp" />
+
 </LinearLayout>
