@@ -98,21 +98,6 @@ public class WorkoutFragment extends Fragment {
         finishBtn.setOnClickListener((View.OnClickListener) getActivity());
         List<Exercise> exercises;
         TextView noExTextView = view.findViewById(R.id.tv_noExercises);
-        //noExTextView.setVisibility(View.GONE);
-
-
-        /*if(MyApplication.getCurrentUser().wid == -1){
-            System.out.println("--------------- Making new workout ---------------");
-            workout = new Workout();
-            workout.workoutNumber = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkoutNum(user.email) + 1;
-            workout.user_email = user.email;
-            workout.time = new SimpleDateFormat("\"EEE, d MMM yyyy HH:mm Z\"").format(new Date());
-            user.setWorkout_id(AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.email).id + 1);
-            AppDatabase.getInstance(getContext()).workoutDao().insertAll(workout);
-        }else {
-            System.out.println("--------------- Using old workout ---------------");
-            workout = AppDatabase.getInstance(getContext()).workoutDao().getNewestUserWorkout(user.email);
-        }*/
 
         exercises = AppDatabase.getInstance(getContext()).exerciseDao().findByWorkoutID(MyApplication.getCurrentUser().wid);
         if(exercises.isEmpty())

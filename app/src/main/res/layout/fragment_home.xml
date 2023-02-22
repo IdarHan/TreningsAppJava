@@ -41,12 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="❌ Logout ❌"
-        android:textSize="22sp"
+        android:text="🚪🏃"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_export"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_prevSesh"
@@ -78,9 +78,8 @@
         android:id="@+id/btn_newSesh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="‍New 🏋️‍♂️"
+        android:text="🏋️‍♀️‍ ‍New 🏋️‍♂️"
         android:textSize="22sp"
-        android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/tv_welcome_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +111,6 @@
         android:id="@+id/btn_nuke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_delete_forever_24"
@@ -127,7 +125,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_cloud_upload_24"
         app:backgroundTint="@color/dark_gray"

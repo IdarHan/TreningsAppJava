@@ -46,7 +46,7 @@ public class WorkoutAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = mInflater.inflate(R.layout.my_listview_detail, null);
         TextView nameTextView = (TextView) v.findViewById(R.id.nameTextView);
-        TextView weightTextView = (TextView) v.findViewById(R.id.weightEditText);
+        TextView weightTextView = (TextView) v.findViewById(R.id.weightTextView);
         TextView setsTextView = (TextView) v.findViewById(R.id.setsTextView);
         TextView seekBarValue = (TextView) v.findViewById(R.id.seekBarValue);
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekBar);
