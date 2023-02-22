@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3C3D3D"
+    android:background="@drawable/silhouette3">
     tools:context=".ui.login.RegisterActivity">
 
     <EditText
@@ -17,7 +17,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
-        android:textColorHint="#AFAFAF"
+        android:textColor="#FAD988"
+        android:textStyle="bold"
+        android:textColorHint="#B4B4B4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +33,9 @@
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
-        android:textColorHint="#AFAFAF"
+        android:textColor="#FAD988"
+        android:textStyle="bold"
+        android:textColorHint="#B4B4B4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +52,9 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
-        android:textColorHint="#AFAFAF"
+        android:textColor="#FAD988"
+        android:textStyle="bold"
+        android:textColorHint="#B4B4B4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
